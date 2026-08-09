@@ -9,11 +9,11 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1786172636,
-        "narHash": "sha256-RoTVsQRGd4ciQlukPhpEjKJQfL9qqjlgDj5JbVX8N34=",
+        "lastModified": 1786254842,
+        "narHash": "sha256-laAYqWROwWvh7S1ycr2ccdubN6Egy4uiOQgB4WOI+t4=",
         "owner": "icebluerabbit",
         "repo": "cleanuparr-flake",
-        "rev": "5a9e04f7e7abaf6eba7bcadb429ca25db098e992",
+        "rev": "b104a4bd23dfdb998a551bf9186ea4ca00757786",
         "type": "github"
       },
       "original": {
