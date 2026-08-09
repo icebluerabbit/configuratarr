@@ -9,6 +9,7 @@
   package = lib.mkOption {
     type = lib.types.package;
     default = pkgs.configuratarr;
+    defaultText = lib.literalExpression "pkgs.configuratarr";
     description = "The configuratarr package to use.";
   };
 

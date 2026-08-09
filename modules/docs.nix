@@ -1,16 +1,10 @@
 {
   pkgs,
-  lib ? pkgs.lib,
   ...
 }:
 
 let
-  # Extend pkgs to include configuratarr, which is used as the default for options.services.configuratarr.package
-  pkgsDocs = pkgs.extend (
-    final: prev: {
-      configuratarr = final.callPackage ../nix/package.nix { };
-    }
-  );
+  pkgsDocs = pkgs;
 
   nixosEval = pkgsDocs.lib.evalModules {
     modules = [

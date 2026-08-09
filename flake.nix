@@ -103,9 +103,15 @@
               }
             );
 
-            configuratarr = pkgs.callPackage ./nix/package.nix {
-              docs = pkgs.callPackage ./modules/docs.nix { };
-            };
+            configuratarr = craneLib.buildPackage (
+              commonArgs
+              // {
+                inherit cargoArtifacts;
+                pname = "configuratarr";
+                cargoExtraArgs = "-p configuratarr --bin configuratarr";
+                passthru.docs = pkgs.callPackage ./modules/docs.nix { };
+              }
+            );
           in
           {
             packages = {

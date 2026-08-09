@@ -48,7 +48,7 @@ package
 *Default:*
 
 ```nix
-<derivation configuratarr-0.1.0>
+pkgs.configuratarr
 ```
 
 *Declared by:*
