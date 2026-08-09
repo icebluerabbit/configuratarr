@@ -5,6 +5,7 @@
   tools,
   # Cleanuparr is not in nixpkgs; it comes from the `cleanuparr-flake` input.
   cleanuparr,
+  lazylibrarian,
 }:
 let
   default = pkgs.mkShell {
@@ -99,6 +100,7 @@ in
   };
 
   e2e-lazylibrarian = import ./e2e-shells/lazylibrarian-v1.nix {
+    inherit lazylibrarian;
     inherit pkgs;
     inherit common;
     e2eShell = e2e;

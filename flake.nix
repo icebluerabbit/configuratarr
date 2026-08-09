@@ -1,5 +1,5 @@
 {
-  description = "Configuratarr - A declarative configuration stack-sync engine for Sonarr, Radarr, Prowlarr, Lidarr, and Readarr.";
+  description = "Configuratarr - A declarative configuration stack-sync engine for Sonarr, Radarr, Prowlarr, and Lidarr.";
 
   nixConfig = {
     extra-substituters = [
@@ -22,6 +22,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     crane.url = "github:ipetkov/crane";
+    lazylibrarian-flake = {
+      url = "github:icebluerabbit/lazylibrarian-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Cleanuparr is not in nixpkgs — and cannot be built from a plain
     # `buildDotnetModule`, since two of its NuGet dependencies live only on a
     # PAT-gated GitHub Packages feed. This flake packages those dependencies too,
@@ -103,9 +107,15 @@
               }
             );
 
-            configuratarr = pkgs.callPackage ./nix/package.nix {
-              docs = pkgs.callPackage ./modules/docs.nix { };
-            };
+            configuratarr = craneLib.buildPackage (
+              commonArgs
+              // {
+                inherit cargoArtifacts;
+                pname = "configuratarr";
+                cargoExtraArgs = "-p configuratarr --bin configuratarr";
+                passthru.docs = pkgs.callPackage ./modules/docs.nix { };
+              }
+            );
           in
           {
             packages = {
@@ -131,6 +141,14 @@
               );
 
               rustfmt = craneLib.cargoFmt { inherit (commonArgs) src; };
+
+              python-tools = pkgs.runCommand "python-tools-tests" { nativeBuildInputs = [ pkgs.python3 ]; } ''
+                cp -r ${./tools} tools
+                chmod -R u+w tools
+                cd tools
+                python3 -m unittest discover -p '*_test.py'
+                touch $out
+              '';
             }
             // mkServiceChecks "radarr-v3" (import ./nix/e2e/radarr-v3.nix { inherit pkgs; })
             // mkServiceChecks "sonarr-v3" (import ./nix/e2e/sonarr-v3.nix { inherit pkgs; })
@@ -139,7 +157,12 @@
             // mkServiceChecks "jellyfin-v11" (import ./nix/e2e/jellyfin-v11.nix { inherit pkgs; })
             // mkServiceChecks "bazarr-v1" (import ./nix/e2e/bazarr-v1.nix { inherit pkgs; })
             // mkServiceChecks "autobrr-v1" (import ./nix/e2e/autobrr-v1.nix { inherit pkgs; })
-            // mkServiceChecks "lazylibrarian-v1" (import ./nix/e2e/lazylibrarian-v1.nix { inherit pkgs; })
+            // mkServiceChecks "lazylibrarian-v1" (
+              import ./nix/e2e/lazylibrarian-v1.nix {
+                inherit pkgs;
+                lazylibrarian = inputs'.lazylibrarian-flake.packages.lazylibrarian;
+              }
+            )
             // mkServiceChecks "cleanuparr-v1" (
               import ./nix/e2e/cleanuparr-v1.nix {
                 inherit pkgs;
@@ -153,9 +176,8 @@
             apps.generate-docs = {
               type = "app";
               program = "${pkgs.writeShellScript "generate-docs" ''
-                echo "==> Copying generated NixOS and Home Manager options docs..."
+                echo "==> Copying generated NixOS options docs..."
                 cp -f ${configuratarr.docs}/nixos_options.md docs/nixos_options.md
-                cp -f ${configuratarr.docs}/home_manager_options.md docs/home_manager_options.md
                 echo "==> Generating service config docs..."
                 ${configDocGen}/bin/config-doc-gen --output-dir docs
                 echo "==> Generating CLI command docs..."
@@ -167,6 +189,7 @@
             devShells = import ./nix/shells.nix {
               inherit pkgs rustToolchain tools;
               cleanuparr = inputs'.cleanuparr-flake.packages.cleanuparr;
+              lazylibrarian = inputs'.lazylibrarian-flake.packages.lazylibrarian;
             };
           };
 
@@ -180,14 +203,6 @@
             }
           );
 
-          homeManagerModules.default = moduleWithSystem (
-            { config, ... }:
-            { lib, ... }:
-            {
-              imports = [ ./modules/home-manager.nix ];
-              services.configuratarr.package = lib.mkDefault config.packages.default;
-            }
-          );
         };
       }
     );

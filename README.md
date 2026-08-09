@@ -5,7 +5,7 @@
 [![Cachix Cache](https://img.shields.io/badge/Cachix-icebluerabbit--configuratarr-blue.svg)](https://icebluerabbit-configuratarr.cachix.org)
 [![Nix Built](https://img.shields.io/badge/Nix-Flake-blue.svg?logo=nixos&logoColor=white)](https://nixos.org)
 
-Declarative, idempotent configuration sync engine for the `*arr` stack (Radarr, Sonarr, Lidarr, Prowlarr, Readarr) written in Rust.
+Declarative, idempotent configuration sync engine for the `*arr` stack (Radarr, Sonarr, Lidarr, Prowlarr) written in Rust.
 
 Reads a desired-state YAML file, diffs it against each app's live REST API, and pushes only the delta. Designed for GitOps workflows and stateless NixOS deployments where application configuration would otherwise live only in a stateful SQLite database.
 
@@ -137,27 +137,6 @@ See [`docs/radarr-v3-config.md`](docs/radarr-v3-config.md) and [`docs/sonarr-v3-
 
 See [`docs/nixos_options.md`](docs/nixos_options.md) for all options.
 
-### Home Manager
-
-```nix
-{ inputs, ... }: {
-  imports = [ inputs.configuratarr.homeManagerModules.default ];
-
-  services.configuratarr = {
-    enable = true;
-    settings = {
-      my-radarr = {
-        type = "radarr-v3";
-        url = "http://localhost:7878";
-        api_key = "\${env.RADARR_API_KEY}";
-      };
-    };
-  };
-}
-```
-
-See [`docs/home_manager_options.md`](docs/home_manager_options.md) for all options.
-
 ---
 
 ## Development
@@ -182,5 +161,5 @@ cargo nextest run -p radarr-v3 --run-ignored all
 
 ```bash
 nix run .#generate-docs    # writes docs/commands.md, docs/radarr-v3-config.md,
-                           # docs/nixos_options.md, docs/home_manager_options.md
+                           # docs/nixos_options.md
 ```
