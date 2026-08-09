@@ -30,7 +30,7 @@ Read-only exploration is **not** exempt — it is the planning. "It's only read-
 1. `list_resources specs/<svc>.json` — **scope = every `[crud]/[singleton]/[provider]` resource the spec exposes; model all of them.** Exclude only pure content/data (`SeriesResource`, `EpisodeResource`, `MovieResource` — runtime library content). Build the full config surface from *this* spec, not radarr's list (Invariant 2).
 2. Field source, per resource: analog exists in radarr → `compare_schemas crates/radarr-v3/spec/radarr-v3.json "#/.../<R>Resource" specs/<svc>.json "#/.../<R>Resource"` for the delta; no analog → `get_resource specs/<svc>.json "#/.../<R>Resource"` fresh. Spec authoritative either way (Invariant 3).
 3. Provider variants (Invariant 4) — clone **now, during planning**, not at execution:
-   - `/projects/configuratarr/specs/terraform_providers.txt` lists the devopsarr repo per app.
+   - `specs/terraform_providers.txt` lists the devopsarr repo per app.
    - `git clone --depth 1 <repo-url> <scratch>/terraform-provider-<app>`.
    - `internal/provider/<resource>_<impl>_resource.go`: **filenames = the variant list, structs = the inner `fields[]`** (full map: `add-resource` → "Where the provider variant list + `fields[]` come from").
    - **Write each provider's variant list into the plan file.** A provider family planned without the cloned repo is planned blind.
