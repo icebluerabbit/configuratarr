@@ -1,5 +1,5 @@
 {
-  description = "Configuratarr - A declarative configuration stack-sync engine for Sonarr, Radarr, Prowlarr, Lidarr, and Readarr.";
+  description = "Configuratarr - A declarative configuration stack-sync engine for Sonarr, Radarr, Prowlarr, and Lidarr.";
 
   nixConfig = {
     extra-substituters = [

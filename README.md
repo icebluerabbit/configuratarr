@@ -5,7 +5,7 @@
 [![Cachix Cache](https://img.shields.io/badge/Cachix-icebluerabbit--configuratarr-blue.svg)](https://icebluerabbit-configuratarr.cachix.org)
 [![Nix Built](https://img.shields.io/badge/Nix-Flake-blue.svg?logo=nixos&logoColor=white)](https://nixos.org)
 
-Declarative, idempotent configuration sync engine for the `*arr` stack (Radarr, Sonarr, Lidarr, Prowlarr, Readarr) written in Rust.
+Declarative, idempotent configuration sync engine for the `*arr` stack (Radarr, Sonarr, Lidarr, Prowlarr) written in Rust.
 
 Reads a desired-state YAML file, diffs it against each app's live REST API, and pushes only the delta. Designed for GitOps workflows and stateless NixOS deployments where application configuration would otherwise live only in a stateful SQLite database.
 
