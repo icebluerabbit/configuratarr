@@ -167,7 +167,6 @@
               import ./nix/e2e/cleanuparr-v1.nix {
                 inherit pkgs;
                 cleanuparr = inputs'.cleanuparr-flake.packages.cleanuparr;
-                lazylibrarian = inputs'.lazylibrarian-flake.packages.lazylibrarian;
                 cleanuparrModule = inputs.cleanuparr-flake.nixosModules.cleanuparr;
               }
             );
