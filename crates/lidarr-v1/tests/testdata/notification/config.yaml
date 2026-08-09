@@ -1,0 +1,20 @@
+name: My Webhook
+implementation: Webhook
+on_grab: true
+on_release_import: true
+on_upgrade: true
+on_rename: false
+on_artist_add: false
+on_artist_delete: false
+on_album_delete: false
+on_health_issue: true
+on_health_restored: true
+on_download_failure: false
+on_import_failure: false
+on_track_retag: false
+on_application_update: true
+include_health_warnings: true
+tags:
+  - "${ref.tag.notifications}"
+url: "${env.WEBHOOK_URL}"
+method: 1

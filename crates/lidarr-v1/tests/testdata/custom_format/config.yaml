@@ -1,0 +1,3 @@
+name: e2e-custom-format
+include_custom_format_when_renaming: false
+specifications: []

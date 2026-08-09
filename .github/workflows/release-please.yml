@@ -1,0 +1,68 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+    steps:
+      - name: Run Release Please
+        id: release
+        uses: googleapis/release-please-action@v5
+        with:
+          release-type: rust
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+
+  upload-assets:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            system: x86_64-linux
+            platform: linux-amd64
+          - os: ubuntu-latest
+            system: aarch64-linux
+            platform: linux-arm64
+          - os: macos-13
+            system: x86_64-darwin
+            platform: darwin-amd64
+          - os: macos-14
+            system: aarch64-darwin
+            platform: darwin-arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up QEMU
+        if: ${{ matrix.system == 'aarch64-linux' }}
+        uses: docker/setup-qemu-action@v3
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v16
+        with:
+          extra-conf: |
+            extra-platforms = aarch64-linux
+
+      - name: Build via Nix
+        run: |
+          nix build .#packages.${{ matrix.system }}.configuratarr
+          tar -czf configuratarr-${{ matrix.platform }}.tar.gz -C result/bin configuratarr
+
+      - name: Upload asset to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+        run: |
+          gh release upload ${{ needs.release-please.outputs.tag_name }} configuratarr-${{ matrix.platform }}.tar.gz

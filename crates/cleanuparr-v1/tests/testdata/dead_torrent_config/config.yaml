@@ -1,0 +1,7 @@
+enabled: true
+target_category: cleanuparr-dead
+use_tag: true
+max_strikes: 3
+categories:
+  - radarr
+  - sonarr

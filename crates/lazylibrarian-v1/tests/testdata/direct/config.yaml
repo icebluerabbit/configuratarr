@@ -1,0 +1,4 @@
+dispname: My Direct
+enabled: false
+host: https://direct.example.com
+search: /search?q=

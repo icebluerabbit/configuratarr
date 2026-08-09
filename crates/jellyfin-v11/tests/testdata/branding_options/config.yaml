@@ -1,0 +1,3 @@
+login_disclaimer: "Welcome to my Jellyfin server."
+custom_css: "body { background: #101010; }"
+splashscreen_enabled: true

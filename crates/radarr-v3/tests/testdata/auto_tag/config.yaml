@@ -1,0 +1,22 @@
+name: genre-tag
+remove_tags_automatically: true
+tags:
+  - 1
+  - 2
+specifications:
+  - name: is-action
+    implementation: GenreSpecification
+    negate: false
+    required: true
+    fields:
+      - name: value
+        value: Action
+  - name: year-range
+    implementation: YearSpecification
+    negate: false
+    required: false
+    fields:
+      - name: min
+        value: 2000
+      - name: max
+        value: 2020

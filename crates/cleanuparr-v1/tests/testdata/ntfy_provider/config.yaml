@@ -1,0 +1,22 @@
+name: ntfy
+is_enabled: true
+on_failed_import_strike: true
+on_stalled_strike: true
+on_slow_strike: true
+on_queue_item_deleted: false
+on_download_cleaned: false
+on_category_changed: false
+on_search_triggered: false
+on_search_item_grabbed: false
+server_url: "https://ntfy.example.com"
+topics:
+  - "cleanuparr-alerts"
+  - "cleanuparr-strikes"
+authentication_type: BasicAuth
+username: "cleanuparr"
+password: "${env.CLEANUPARR_NTFY_PASSWORD}"
+access_token: "${env.CLEANUPARR_NTFY_ACCESS_TOKEN}"
+priority: High
+tags:
+  - "warning"
+  - "skull"

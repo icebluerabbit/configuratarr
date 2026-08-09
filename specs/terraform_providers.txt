@@ -1,0 +1,7 @@
+https://github.com/devopsarr/terraform-provider-prowlarr
+https://github.com/devopsarr/terraform-provider-whisparr
+https://github.com/devopsarr/terraform-provider-radarr
+https://github.com/devopsarr/terraform-provider-sonarr
+https://github.com/devopsarr/terraform-provider-lidarr
+https://github.com/devopsarr/terraform-provider-readarr
+https://github.com/devopsarr/terraform-provider-overseerr

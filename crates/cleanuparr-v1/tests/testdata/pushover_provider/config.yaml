@@ -1,0 +1,22 @@
+name: pushover
+is_enabled: true
+on_failed_import_strike: true
+on_stalled_strike: true
+on_slow_strike: false
+on_queue_item_deleted: false
+on_download_cleaned: false
+on_category_changed: false
+on_search_triggered: false
+on_search_item_grabbed: false
+api_token: "${env.CLEANUPARR_PUSHOVER_API_TOKEN}"
+user_key: "${env.CLEANUPARR_PUSHOVER_USER_KEY}"
+devices:
+  - "phone"
+  - "tablet"
+priority: Emergency
+sound: "siren"
+retry: 60
+expire: 3600
+tags:
+  - "strike"
+  - "cleanup"

@@ -1,0 +1,15 @@
+name: pushover-releases
+notification_type: PUSHOVER
+enabled: true
+events:
+  - PUSH_APPROVED
+  - PUSH_REJECTED
+token: "${env.PUSHOVER_TOKEN}"
+api_key: "${env.PUSHOVER_USER}"
+priority: 2
+devices: phone,tablet
+sound: pushover
+title: Release
+event_sounds:
+  PUSH_APPROVED: magic
+  PUSH_REJECTED: falling

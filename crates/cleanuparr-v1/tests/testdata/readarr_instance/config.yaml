@@ -1,0 +1,6 @@
+name: main-readarr
+enabled: true
+url: "http://readarr:8787"
+api_key: "${env.READARR_API_KEY}"
+version: 1.0
+external_url: "https://readarr.example.com"

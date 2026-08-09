@@ -1,0 +1,16 @@
+name: e2e-metadata-profile
+primary_album_types:
+  - album_type:
+      id: 1
+      name: Album
+    allowed: true
+secondary_album_types:
+  - album_type:
+      id: 1
+      name: Studio
+    allowed: true
+release_statuses:
+  - release_status:
+      id: 1
+      name: Official
+    allowed: true

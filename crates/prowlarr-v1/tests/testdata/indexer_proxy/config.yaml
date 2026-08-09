@@ -1,0 +1,10 @@
+name: My Proxy
+implementation: HTTP
+config_contract: HTTPSettings
+host: proxy.local
+port: 8080
+username: prowlarr
+password: "${env.PROXY_PASSWORD}"
+on_health_issue: false
+include_health_warnings: false
+tags: []

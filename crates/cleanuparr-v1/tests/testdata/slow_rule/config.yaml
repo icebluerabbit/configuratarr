@@ -1,0 +1,13 @@
+name: slow-torrents
+enabled: true
+max_strikes: 5
+privacy_type: Both
+min_completion_percentage: 10
+max_completion_percentage: 95
+delete_private_torrents_from_client: false
+change_category: true
+reset_strikes_on_progress: true
+min_speed: "50KB"
+max_time_hours: 6
+ignore_above_size: "5GB"
+ignore_while_alt_speed_active: false

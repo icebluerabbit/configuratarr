@@ -1,0 +1,16 @@
+base_url: "/jellyfin"
+enable_https: false
+require_https: false
+internal_http_port: 8096
+internal_https_port: 8920
+public_http_port: 8096
+public_https_port: 8920
+auto_discovery: true
+enable_u_pn_p: false
+enable_i_pv4: true
+enable_i_pv6: false
+enable_remote_access: true
+local_network_subnets: ["10.0.0.0/8"]
+known_proxies: ["10.0.0.1"]
+remote_i_p_filter: ["1.2.3.4"]
+is_remote_i_p_filter_blacklist: true

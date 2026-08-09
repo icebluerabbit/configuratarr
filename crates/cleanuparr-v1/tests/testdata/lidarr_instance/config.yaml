@@ -1,0 +1,6 @@
+name: main-lidarr
+enabled: true
+url: "http://lidarr:8686"
+api_key: "${env.LIDARR_API_KEY}"
+version: 1.0
+external_url: "https://lidarr.example.com"

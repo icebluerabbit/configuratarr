@@ -1,0 +1,14 @@
+name: My Tracker
+implementation: Cardigann
+config_contract: CardigannSettings
+fields:
+  definitionFile: mytracker
+enable: true
+redirect: false
+priority: 25
+protocol: torrent
+privacy: private
+language: en-US
+app_profile_id: "${ref.app_profile.standard}"
+tags:
+  - "${ref.tag.trackers}"

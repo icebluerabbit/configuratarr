@@ -1,0 +1,17 @@
+name: radarr-wanted
+list_type: RADARR
+enabled: true
+client_id: ${ref.download_client.qbit-main}
+url: ""
+api_key: "${env.LIST_API_KEY}"
+filters:
+  - id: ${ref.filter.1080p-movies}
+match_release: false
+tags_included:
+  - wanted
+tags_excluded:
+  - skip
+include_unmonitored: false
+include_alternate_titles: true
+include_year: true
+skip_clean_sanitize: false

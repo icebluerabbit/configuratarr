@@ -1,0 +1,13 @@
+name: No x265 Encodes
+enabled: true
+# Terms that must appear in release titles grabbed under this profile.
+required:
+  - PROPER
+  - REPACK
+# Terms that must NOT appear in release titles.
+ignored:
+  - x265
+  - HEVC
+# 0 = apply to all indexers.
+indexer_id: 0
+tags: []

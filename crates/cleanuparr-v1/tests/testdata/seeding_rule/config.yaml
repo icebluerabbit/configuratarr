@@ -1,0 +1,16 @@
+name: movies
+categories:
+  - radarr
+tracker_patterns:
+  - tracker.example.com
+tags_any:
+  - keep
+tags_all:
+  - verified
+privacy_type: Private
+max_ratio: 2.0
+min_seed_time: 24.0
+max_seed_time: 336.0
+min_seeders: 2
+max_inactive_days: 30.0
+delete_source_files: true

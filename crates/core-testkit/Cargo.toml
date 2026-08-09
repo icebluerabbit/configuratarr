@@ -1,0 +1,15 @@
+[package]
+name    = "core-testkit"
+version = "0.1.0"
+edition = "2024"
+
+# Shared test harness for service crates (spec-conformance + e2e). Pulled in as a
+# dev-dependency; its own deps are test-only and never reach a service's normal
+# build.
+
+[dependencies]
+core-lib = { path = "../core" }
+anyhow.workspace       = true
+serde_json.workspace   = true
+serde-saphyr.workspace = true
+jsonschema.workspace   = true

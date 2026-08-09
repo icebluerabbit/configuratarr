@@ -1,0 +1,13 @@
+name: qBittorrent
+enable: true
+protocol: torrent
+priority: 1
+remove_completed_downloads: true
+remove_failed_downloads: false
+tags:
+  - "${ref.tag.downloads}"
+implementation: QBittorrent
+host: qbittorrent.local
+port: 8080
+password: "${env.QB_PASSWORD}"
+movie_category: radarr

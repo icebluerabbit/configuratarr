@@ -1,0 +1,7 @@
+minimum_age: 0
+maximum_size: 0
+retention: 0
+rss_sync_interval: 60
+prefer_indexer_flags: false
+availability_delay: 0
+allow_hardcoded_subs: false

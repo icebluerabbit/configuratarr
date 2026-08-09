@@ -1,0 +1,15 @@
+name: apprise
+is_enabled: true
+on_failed_import_strike: true
+on_stalled_strike: false
+on_slow_strike: false
+on_queue_item_deleted: false
+on_download_cleaned: true
+on_category_changed: false
+on_search_triggered: false
+on_search_item_grabbed: false
+mode: Api
+url: "http://apprise:8000"
+key: "${env.CLEANUPARR_APPRISE_KEY}"
+tags: "cleanuparr,alerts"
+service_urls: "discord://${env.CLEANUPARR_APPRISE_DISCORD_TOKEN}/${env.CLEANUPARR_APPRISE_DISCORD_ID}"

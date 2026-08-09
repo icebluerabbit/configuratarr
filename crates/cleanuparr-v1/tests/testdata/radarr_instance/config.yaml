@@ -1,0 +1,6 @@
+name: main-radarr
+enabled: true
+url: "http://radarr:7878"
+api_key: "${env.RADARR_API_KEY}"
+version: 5.0
+external_url: "https://radarr.example.com"

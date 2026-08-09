@@ -1,0 +1,14 @@
+name: telegram
+is_enabled: true
+on_failed_import_strike: true
+on_stalled_strike: false
+on_slow_strike: false
+on_queue_item_deleted: true
+on_download_cleaned: false
+on_category_changed: false
+on_search_triggered: false
+on_search_item_grabbed: false
+bot_token: "${env.CLEANUPARR_TELEGRAM_BOT_TOKEN}"
+chat_id: "-1001234567890"
+topic_id: "42"
+send_silently: false

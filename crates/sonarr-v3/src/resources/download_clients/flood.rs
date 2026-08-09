@@ -1,0 +1,39 @@
+use core_lib::SecretValue;
+use core_macros::fields_blob;
+
+/// Flood (rTorrent web UI) download client settings.
+#[fields_blob(
+    implementation = "Flood",
+    config_contract = "FloodSettings",
+    protocol = "torrent"
+)]
+pub struct FloodConfig {
+    /// Hostname or IP address of the Flood server.
+    pub host: Option<String>,
+    /// TCP port the Flood web UI listens on.
+    pub port: Option<i32>,
+    /// Username for authenticating with Flood.
+    pub username: Option<String>,
+    /// Password for authenticating with Flood.
+    pub password: Option<SecretValue>,
+    /// Directory Flood saves downloaded files to.
+    pub destination: Option<String>,
+    /// URL base path if Flood is hosted behind a reverse proxy.
+    #[wire(name = "urlBase")]
+    pub url_base: Option<String>,
+    /// Start torrents immediately when added (instead of adding paused).
+    #[wire(name = "startOnAdd")]
+    pub start_on_add: Option<bool>,
+    /// Connect to Flood over HTTPS.
+    #[wire(name = "useSsl")]
+    pub use_ssl: Option<bool>,
+    /// Tags applied to the torrent in Flood (string labels, not Sonarr tag ids).
+    #[wire(name = "tags")]
+    pub field_tags: Vec<String>,
+    /// Additional Sonarr-managed metadata tags appended to the torrent (integer codes).
+    #[wire(name = "additionalTags")]
+    pub additional_tags: Vec<i32>,
+    /// Tags applied to the torrent in Flood after Sonarr imports it.
+    #[wire(name = "postImportTags")]
+    pub post_import_tags: Vec<String>,
+}

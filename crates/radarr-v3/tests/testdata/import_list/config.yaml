@@ -1,0 +1,13 @@
+name: Plex Watchlist
+implementation: PlexImport
+enabled: true
+enable_auto: true
+monitor: movieOnly
+root_folder_path: "${env.MOVIES_PATH}"
+quality_profile_id: "${ref.quality_profile.HD-1080p}"
+search_on_add: true
+minimum_availability: released
+list_order: 1
+tags:
+  - "${ref.tag.imports}"
+access_token: "${env.PLEX_TOKEN}"

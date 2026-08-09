@@ -1,0 +1,5 @@
+dispname: My Feed
+enabled: true
+host: https://example.com/rss
+dl_types: E
+label: books

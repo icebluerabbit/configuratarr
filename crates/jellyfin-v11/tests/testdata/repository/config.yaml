@@ -1,0 +1,3 @@
+name: "Jellyfin Stable"
+url: "https://repo.jellyfin.org/releases/plugin/manifest-stable.json"
+enabled: true

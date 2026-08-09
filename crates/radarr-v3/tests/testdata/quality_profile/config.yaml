@@ -1,0 +1,31 @@
+name: HD-1080p
+upgrade_allowed: true
+cutoff: 7
+min_format_score: 0
+cutoff_format_score: 100
+min_upgrade_format_score: 1
+items:
+  - allowed: true
+    quality:
+      id: 9
+      name: HD-1080p
+      source: webdl
+      resolution: 1080
+      modifier: none
+  - allowed: false
+    name: WEB 2160p
+    items:
+      - allowed: false
+        quality:
+          id: 18
+          name: WEBDL-2160p
+          source: webdl
+          resolution: 2160
+format_items:
+  - format: "${ref.custom_format.remux-tier}"
+    score: 100
+  - format: "${ref.custom_format.x265}"
+    score: -50
+language:
+  id: 1
+  name: English

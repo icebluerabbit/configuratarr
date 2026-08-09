@@ -1,0 +1,35 @@
+[package]
+name    = "config-doc-gen"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "config-doc-gen"
+path = "src/main.rs"
+
+[dependencies]
+core-lib         = { path = "../core" }
+service-registry = { path = "../service-registry" }
+radarr-v3   = { path = "../radarr-v3", optional = true }
+sonarr-v3   = { path = "../sonarr-v3", optional = true }
+prowlarr-v1 = { path = "../prowlarr-v1", optional = true }
+lidarr-v1   = { path = "../lidarr-v1", optional = true }
+jellyfin-v11 = { path = "../jellyfin-v11", optional = true }
+bazarr-v1   = { path = "../bazarr-v1", optional = true }
+autobrr-v1  = { path = "../autobrr-v1", optional = true }
+lazylibrarian-v1 = { path = "../lazylibrarian-v1", optional = true }
+cleanuparr-v1 = { path = "../cleanuparr-v1", optional = true }
+anyhow      = { workspace = true }
+clap        = { workspace = true }
+
+[features]
+default     = ["radarr-v3", "sonarr-v3", "prowlarr-v1", "lidarr-v1", "jellyfin-v11", "bazarr-v1", "autobrr-v1", "lazylibrarian-v1", "cleanuparr-v1"]
+radarr-v3   = ["dep:radarr-v3"]
+sonarr-v3   = ["dep:sonarr-v3"]
+prowlarr-v1 = ["dep:prowlarr-v1"]
+lidarr-v1   = ["dep:lidarr-v1"]
+jellyfin-v11 = ["dep:jellyfin-v11"]
+bazarr-v1   = ["dep:bazarr-v1"]
+autobrr-v1  = ["dep:autobrr-v1"]
+lazylibrarian-v1 = ["dep:lazylibrarian-v1"]
+cleanuparr-v1 = ["dep:cleanuparr-v1"]

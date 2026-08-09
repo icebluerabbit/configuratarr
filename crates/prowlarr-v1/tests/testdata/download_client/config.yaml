@@ -1,0 +1,10 @@
+name: Blackhole
+implementation: UsenetBlackhole
+config_contract: UsenetBlackholeSettings
+nzb_folder: /downloads
+enable: true
+protocol: usenet
+priority: 1
+categories: []
+tags:
+  - "${ref.tag.downloads}"

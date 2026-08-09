@@ -1,0 +1,19 @@
+name: My Lidarr Import
+implementation: LidarrImport
+enable_automatic_add: true
+should_monitor_existing: false
+should_search: true
+should_monitor: entireArtist
+monitor_new_items: all
+root_folder_path: "${env.MUSIC_PATH}"
+quality_profile_id: "${ref.quality_profile.Lossless}"
+metadata_profile_id: "${ref.metadata_profile.Standard}"
+list_order: 1
+tags:
+  - "${ref.tag.imports}"
+base_url: "http://lidarr:8686"
+api_key: "${env.LIDARR_API_KEY}"
+profile_ids:
+  - 1
+tag_ids:
+  - 2

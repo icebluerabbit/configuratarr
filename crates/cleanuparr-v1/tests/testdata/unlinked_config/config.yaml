@@ -1,0 +1,8 @@
+enabled: true
+target_category: cleanuparr-unlinked
+use_tag: false
+ignored_root_dirs:
+  - /data/keep
+categories:
+  - radarr
+  - sonarr

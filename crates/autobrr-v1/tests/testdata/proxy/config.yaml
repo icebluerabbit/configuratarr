@@ -1,0 +1,7 @@
+name: my-proxy
+enabled: true
+proxy_type: SOCKS5
+addr: socks5://127.0.0.1:1080
+user: bob
+pass: "${env.PROXY_PASS}"
+timeout: 30

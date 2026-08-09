@@ -1,0 +1,10 @@
+name: home-assistant-webhook
+notification_type: WEBHOOK
+enabled: true
+events:
+  - PUSH_APPROVED
+  - PUSH_REJECTED
+  - PUSH_ERROR
+webhook: "https://ha.example.tld/api/webhook/autobrr"
+method: POST
+headers: "X-From=autobrr,Authorization=Bearer ${env.HA_WEBHOOK_TOKEN}"

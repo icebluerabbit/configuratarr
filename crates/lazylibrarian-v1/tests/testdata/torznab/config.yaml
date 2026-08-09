@@ -1,0 +1,7 @@
+dispname: My Torznab
+enabled: true
+host: https://torznab.example.com
+api: torznab-secret-key
+book_cat: "8000,8010"
+seeders: 1
+seed_ratio: 1.5

@@ -1,0 +1,6 @@
+dispname: My IRC
+enabled: true
+server: irc.example.com
+channel: "#books"
+bot_nick: searchbot
+search: "@search"

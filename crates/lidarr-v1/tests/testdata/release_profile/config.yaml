@@ -1,0 +1,8 @@
+enabled: true
+required:
+  - flac
+ignored:
+  - cam
+indexer_id: 0
+tags:
+  - "${ref.tag.e2e-tag}"

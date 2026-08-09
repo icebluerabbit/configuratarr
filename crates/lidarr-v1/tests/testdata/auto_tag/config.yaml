@@ -1,0 +1,5 @@
+name: e2e-auto-tag
+remove_tags_automatically: false
+tags:
+  - "${ref.tag.e2e-tag}"
+specifications: []

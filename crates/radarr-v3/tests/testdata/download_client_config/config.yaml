@@ -1,0 +1,4 @@
+enable_completed_download_handling: true
+check_for_finished_download_interval: 1
+auto_redownload_failed: true
+auto_redownload_failed_from_interactive_search: true

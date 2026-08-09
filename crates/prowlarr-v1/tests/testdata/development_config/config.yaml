@@ -1,0 +1,5 @@
+console_log_level: ""
+log_sql: false
+log_indexer_response: false
+log_rotate: 50
+filter_sentry_events: true

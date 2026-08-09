@@ -1,0 +1,55 @@
+name: qbit
+enabled: true
+type_name: qBittorrent
+protocol: Torrent
+host: "http://qbittorrent:8080"
+username: "admin"
+password: "${env.QBIT_PASSWORD}"
+url_base: "/qbit"
+external_url: "https://qbit.example.com"
+download_directory_source: "/downloads"
+download_directory_target: "/mnt/downloads"
+seeding_rules:
+  - name: default-seeding
+    categories:
+      - "sonarr"
+      - "radarr"
+    tracker_patterns:
+      - "privatetracker.example"
+    tags_any:
+      - "keep"
+    tags_all:
+      - "verified"
+    privacy_type: Private
+    max_ratio: 2.0
+    min_seed_time: 24
+    max_seed_time: 168
+    min_seeders: 1
+    max_inactive_days: 7
+    delete_source_files: true
+unlinked_config:
+  enabled: true
+  target_category: "cleanuparr-unlinked"
+  use_tag: false
+  ignored_root_dirs:
+    - "/mnt/downloads/keep"
+  categories:
+    - "sonarr"
+    - "radarr"
+dead_torrent_config:
+  enabled: true
+  target_category: "cleanuparr-dead"
+  use_tag: false
+  max_strikes: 5
+  categories:
+    - "sonarr"
+    - "radarr"
+orphaned_files_config:
+  enabled: true
+  scan_directories:
+    - "/mnt/downloads"
+  orphaned_directory: "/mnt/downloads/orphaned"
+  exclude_patterns:
+    - "*.tmp"
+  min_file_age_hours: 48
+  purge_after_hours: 720

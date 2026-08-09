@@ -1,0 +1,13 @@
+name: My Webhook
+implementation: Webhook
+config_contract: WebhookSettings
+url: "${env.WEBHOOK_URL}"
+method: 1
+on_grab: true
+on_health_issue: true
+on_health_restored: true
+on_application_update: true
+include_manual_grabs: false
+include_health_warnings: true
+tags:
+  - "${ref.tag.notifications}"

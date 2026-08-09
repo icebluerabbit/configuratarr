@@ -1,0 +1,13 @@
+name: Discord
+implementation: Discord
+on_grab: true
+on_download: true
+on_upgrade: true
+on_health_issue: true
+on_health_restored: true
+on_application_update: true
+include_health_warnings: true
+tags:
+  - "${ref.tag.notifications}"
+web_hook_url: "${env.DISCORD_WEBHOOK}"
+username: Radarr

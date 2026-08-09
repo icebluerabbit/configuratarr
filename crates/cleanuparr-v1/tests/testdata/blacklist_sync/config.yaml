@@ -1,0 +1,2 @@
+enabled: true
+blacklist_path: "https://example.com/blacklist.txt"

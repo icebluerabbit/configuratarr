@@ -1,0 +1,9 @@
+label: ongoing-drama
+filter_type: SeriesIndex
+filters:
+  - key: status
+    value: continuing
+    type: equal
+  - key: genres
+    value: drama
+    type: contains

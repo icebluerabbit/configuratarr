@@ -1,0 +1,19 @@
+name: my-network
+enabled: true
+server: irc.example.org
+port: 6697
+tls: true
+nick: mybot
+pass: "${env.IRC_PASS}"
+auth:
+  mechanism: SASL_PLAIN
+  account: mybot
+  password: "${env.IRC_NICKSERV}"
+invite_command: "/msg gatekeeper !invite mybot"
+use_proxy: true
+proxy_id: "${ref.proxy.my-proxy}"
+channels:
+  - name: "#announce"
+    password: "${env.IRC_CHAN_KEY}"
+    enabled: true
+  - name: "#general"

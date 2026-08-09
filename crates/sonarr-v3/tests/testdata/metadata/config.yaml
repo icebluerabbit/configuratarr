@@ -1,0 +1,10 @@
+name: Kodi
+implementation: XbmcMetadata
+enable: true
+tags: []
+series_metadata: true
+series_metadata_url: false
+series_images: true
+season_images: true
+episode_metadata: true
+episode_images: true

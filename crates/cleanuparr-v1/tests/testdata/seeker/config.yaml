@@ -1,0 +1,24 @@
+search_enabled: true
+search_interval: 5
+proactive_search_enabled: true
+selection_strategy: OldestSearchFirst
+use_round_robin: false
+post_release_grace_hours: 12
+instances:
+  - arr_instance_id: ${ref.sonarr_instance.Main}
+    enabled: true
+    skip_tags:
+      - "anime"
+      - "4k"
+    active_download_limit: 5
+    min_cycle_time_days: 3
+    monitored_only: true
+    use_cutoff: true
+    use_custom_format_score: false
+  - arr_instance_id: ${ref.radarr_instance.Main}
+    enabled: false
+    active_download_limit: 0
+    min_cycle_time_days: 14
+    monitored_only: false
+    use_cutoff: false
+    use_custom_format_score: true

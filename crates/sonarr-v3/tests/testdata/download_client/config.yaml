@@ -1,0 +1,14 @@
+name: NZBGet
+enable: true
+protocol: usenet
+priority: 1
+remove_completed_downloads: true
+remove_failed_downloads: false
+tags:
+  - "${ref.tag.downloads}"
+implementation: Nzbget
+host: nzbget.local
+port: 6789
+username: sonarr
+password: "${env.NZBGET_PASSWORD}"
+tv_category: sonarr

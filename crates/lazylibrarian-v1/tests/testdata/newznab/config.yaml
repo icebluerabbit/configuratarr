@@ -1,0 +1,8 @@
+dispname: My Newznab
+enabled: true
+host: https://newznab.example.com
+api: newznab-secret-key
+book_cat: "7000,7020"
+mag_cat: "7010"
+dl_types: A,E,M
+dl_priority: 0

@@ -1,0 +1,30 @@
+display_support_banner: false
+dry_run: false
+http_max_retries: 3
+http_timeout: 60
+http_certificate_validation: DisabledForLocalAddresses
+status_check_enabled: true
+encryption_key: "correct-horse-battery-staple-32b"
+ignored_downloads:
+  - "sample.mkv"
+  - "ubuntu-24.04-desktop-amd64.iso"
+connectivity_check_enabled: true
+connectivity_check_urls:
+  - "https://1.1.1.1"
+  - "https://8.8.8.8"
+strike_inactivity_window_hours: 12
+history_retention_days: 90
+log:
+  level: Information
+  rolling_size_mb: 25
+  retained_file_count: 10
+  time_limit_hours: 48
+  archive_enabled: true
+  archive_retained_count: 30
+  archive_time_limit_hours: 168
+auth:
+  disable_auth_for_local_addresses: true
+  trust_forwarded_headers: false
+  trusted_networks:
+    - "10.0.0.0/8"
+    - "192.168.1.0/24"

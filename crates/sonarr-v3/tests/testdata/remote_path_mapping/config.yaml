@@ -1,0 +1,3 @@
+host: download-client
+remote_path: /downloads/tv
+local_path: /mnt/downloads/tv

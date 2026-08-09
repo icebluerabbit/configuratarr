@@ -1,0 +1,12 @@
+[package]
+name    = "cmd-doc-gen"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "cmd-doc-gen"
+path = "src/main.rs"
+
+[dependencies]
+core-cli       = { path = "../core-cli" }
+clap-markdown  = { workspace = true }

@@ -1,0 +1,13 @@
+encoding_thread_count: 0
+transcoding_temp_path: "/tmp/jellyfin-transcodes"
+hardware_acceleration_type: "none"
+down_mix_stereo_algorithm: "None"
+down_mix_audio_boost: 2.0
+enable_hardware_encoding: false
+allow_hevc_encoding: true
+allow_av1_encoding: false
+h264_crf: 23
+h265_crf: 28
+encoder_preset: "veryfast"
+deinterlace_method: "yadif"
+hardware_decoding_codecs: ["h264", "hevc"]

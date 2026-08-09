@@ -1,0 +1,8 @@
+name: Music
+path: /music
+default_metadata_profile_id: "${ref.metadata_profile.e2e-metadata-profile}"
+default_quality_profile_id: "${ref.quality_profile.e2e-quality-profile}"
+default_monitor_option: all
+default_new_item_monitor_option: all
+default_tags:
+  - "${ref.tag.e2e-tag}"

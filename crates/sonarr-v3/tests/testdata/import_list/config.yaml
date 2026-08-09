@@ -1,0 +1,14 @@
+name: My IMDB Watchlist
+implementation: ImdbListImport
+enable_automatic_add: true
+search_for_missing_episodes: false
+should_monitor: all
+monitor_new_items: all
+root_folder_path: "${env.SERIES_PATH}"
+quality_profile_id: "${ref.quality_profile.HD-1080p}"
+series_type: standard
+season_folder: true
+list_order: 1
+tags:
+  - "${ref.tag.imports}"
+list_id: ls012345678

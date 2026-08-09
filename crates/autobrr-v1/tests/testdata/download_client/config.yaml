@@ -1,0 +1,19 @@
+name: qbit-main
+client_type: QBITTORRENT
+enabled: true
+host: http://localhost
+port: 8080
+username: admin
+password: ${env.QBIT_PASS}
+settings:
+  rules:
+    enabled: true
+    max_active_downloads: 10
+    ignore_slow_torrents: true
+    ignore_slow_torrents_condition: MAX_DOWNLOADS_REACHED
+    download_speed_threshold: 5000
+  auth:
+    enabled: true
+    auth_type: BASIC_AUTH
+    username: proxyuser
+    password: ${env.PROXY_PASS}

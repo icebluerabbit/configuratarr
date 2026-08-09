@@ -1,0 +1,4 @@
+download_client_working_folders: "_UNPACK_|_FAILED_"
+enable_completed_download_handling: true
+auto_redownload_failed: true
+auto_redownload_failed_from_interactive_search: true

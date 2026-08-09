@@ -1,0 +1,13 @@
+name: Sonarr
+sync_level: fullSync
+tags:
+  - "${ref.tag.media}"
+implementation: Sonarr
+prowlarr_url: "http://prowlarr:9696"
+base_url: "http://sonarr:8989"
+api_key: "${env.SONARR_API_KEY}"
+sync_categories:
+  - 5000
+  - 5070
+anime_sync_categories:
+  - 5070

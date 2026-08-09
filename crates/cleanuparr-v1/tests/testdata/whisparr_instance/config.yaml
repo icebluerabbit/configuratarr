@@ -1,0 +1,6 @@
+name: main-whisparr
+enabled: false
+url: "http://whisparr:6969"
+api_key: "${env.WHISPARR_API_KEY}"
+version: 2.0
+external_url: "https://whisparr.example.com"

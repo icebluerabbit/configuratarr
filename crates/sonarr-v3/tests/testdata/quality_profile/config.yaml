@@ -1,0 +1,50 @@
+name: 1080p Standard
+upgrade_allowed: true
+cutoff: 7
+min_format_score: 0
+cutoff_format_score: 100
+min_upgrade_format_score: 1
+items:
+  # Leaf item: carries a quality object and size limits; items is empty.
+  - allowed: true
+    quality:
+      id: 9
+      name: HDTV-1080p
+      source: television
+      resolution: 1080
+    items: []
+    min_size: 0.0
+    max_size: 175.0
+    preferred_size: 95.0
+  # Group item: name set, quality absent, children in items.
+  - allowed: true
+    name: WEB 1080p
+    items:
+      - allowed: true
+        quality:
+          id: 3
+          name: WEBDL-1080p
+          source: web
+          resolution: 1080
+        items: []
+      - allowed: true
+        quality:
+          id: 15
+          name: WEBRip-1080p
+          source: webRip
+          resolution: 1080
+        items: []
+  - allowed: false
+    quality:
+      id: 18
+      name: WEBDL-2160p
+      source: web
+      resolution: 2160
+    items: []
+format_items:
+  - format: "${ref.custom_format.x265}"
+    name: x265 (HEVC)
+    score: -10
+  - format: "${ref.custom_format.hdr}"
+    name: HDR
+    score: 50

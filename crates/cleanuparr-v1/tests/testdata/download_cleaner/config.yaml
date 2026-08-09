@@ -1,0 +1,6 @@
+enabled: true
+cron_expression: "0 0/30 * * * ?"
+use_advanced_scheduling: false
+ignored_downloads:
+  - "manual-download"
+  - "seeding-forever"

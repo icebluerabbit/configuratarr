@@ -1,0 +1,19 @@
+[package]
+name    = "core-lib"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+core-http = { path = "../core-http" }
+anyhow.workspace     = true
+serde_json.workspace = true
+secrecy.workspace    = true
+tracing.workspace    = true
+zeroize.workspace    = true
+tokio.workspace      = true
+base64.workspace     = true
+
+[dev-dependencies]
+core-macros = { path = "../core-macros" }
+tokio.workspace    = true
+wiremock.workspace = true

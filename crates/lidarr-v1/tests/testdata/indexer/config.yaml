@@ -1,0 +1,13 @@
+name: e2e-indexer
+tags: []
+implementation: Newznab
+base_url: https://news.example.com
+api_path: /api
+api_key: "${env.NEWZNAB_API_KEY}"
+categories:
+  - 3000
+enable_rss: true
+enable_automatic_search: true
+enable_interactive_search: true
+protocol: usenet
+priority: 25

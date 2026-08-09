@@ -1,0 +1,8 @@
+name: Kodi
+implementation: XbmcMetadata
+enable: true
+tags: []
+artist_metadata: true
+album_metadata: true
+artist_images: true
+album_images: true

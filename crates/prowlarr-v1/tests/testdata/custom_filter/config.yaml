@@ -1,0 +1,6 @@
+label: private-only
+filter_type: indexerIndex
+filters:
+  - key: privacy
+    value: private
+    type: equal

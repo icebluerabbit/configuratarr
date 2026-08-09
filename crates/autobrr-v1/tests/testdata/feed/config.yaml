@@ -1,0 +1,15 @@
+name: my-torznab-feed
+indexer_id: ${ref.indexer.TorrentLeech}
+feed_type: TORZNAB
+enabled: true
+url: https://tracker.example/rss
+interval: 15
+timeout: 60
+max_age: 3600
+categories:
+  - 2000
+  - 2010
+api_key: "${env.FEED_API_KEY}"
+tls_skip_verify: false
+settings:
+  download_type: MAGNET

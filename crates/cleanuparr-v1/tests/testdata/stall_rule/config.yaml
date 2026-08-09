@@ -1,0 +1,10 @@
+name: stalled-torrents
+enabled: true
+max_strikes: 5
+privacy_type: Private
+min_completion_percentage: 10
+max_completion_percentage: 95
+delete_private_torrents_from_client: true
+change_category: true
+reset_strikes_on_progress: false
+minimum_progress: "10MB"

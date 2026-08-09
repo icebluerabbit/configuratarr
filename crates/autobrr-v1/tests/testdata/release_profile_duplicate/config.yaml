@@ -1,0 +1,10 @@
+name: movies-dedup
+release_name: false
+title: true
+year: true
+resolution: true
+source: true
+codec: true
+group: true
+proper: true
+repack: true

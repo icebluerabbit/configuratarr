@@ -1,0 +1,17 @@
+enabled: true
+cron_expression: "0 0/10 * * * ?"
+use_advanced_scheduling: false
+failed_import:
+  max_strikes: 3
+  ignore_private: false
+  delete_private: false
+  skip_if_not_found_in_client: true
+  patterns:
+    - "*sample*"
+    - "*password*"
+  pattern_mode: Exclude
+  change_category: false
+downloading_metadata_max_strikes: 5
+process_no_content_id: true
+ignored_downloads:
+  - "manual-download"

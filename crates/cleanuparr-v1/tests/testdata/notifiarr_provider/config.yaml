@@ -1,0 +1,12 @@
+name: notifiarr
+is_enabled: true
+on_failed_import_strike: true
+on_stalled_strike: true
+on_slow_strike: false
+on_queue_item_deleted: true
+on_download_cleaned: false
+on_category_changed: false
+on_search_triggered: false
+on_search_item_grabbed: false
+api_key: "${env.CLEANUPARR_NOTIFIARR_API_KEY}"
+channel_id: "123456789012345"

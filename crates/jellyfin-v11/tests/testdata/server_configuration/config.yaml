@@ -1,0 +1,39 @@
+server_name: "My Jellyfin"
+log_file_retention_days: 3
+enable_metrics: false
+ui_culture: "en-US"
+preferred_metadata_language: "en"
+metadata_country_code: "US"
+sort_replace_characters: ["-", "."]
+sort_remove_words: ["the", "a"]
+image_saving_convention: "Compatible"
+chapter_image_resolution: "P240"
+cors_hosts: ["*"]
+metadata_options:
+  - item_type: "Movie"
+    disabled_metadata_savers: ["Nfo"]
+    local_metadata_reader_order: ["Nfo"]
+    metadata_fetcher_order: ["TheMovieDb"]
+    image_fetcher_order: ["TheMovieDb"]
+content_types:
+  - name: "/data/movies"
+    value: "movies"
+plugin_repositories:
+  - name: "Jellyfin Stable"
+    url: "https://repo.jellyfin.org/releases/plugin/manifest-stable.json"
+    enabled: true
+path_substitutions:
+  - from: "/old/path"
+    to: "/new/path"
+cast_receiver_applications:
+  - id: "F007D354"
+    name: "Stable"
+trickplay_options:
+  enable_hw_acceleration: false
+  enable_hw_encoding: false
+  scan_behavior: "NonBlocking"
+  process_priority: "BelowNormal"
+  interval: 10000
+  width_resolutions: [320]
+  tile_width: 10
+  tile_height: 10

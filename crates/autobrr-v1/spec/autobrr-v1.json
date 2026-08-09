@@ -1,0 +1,3500 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "autobrr",
+    "version": "v1",
+    "description": "autobrr API \u2014 path surface verified against autobrr v1.82.1 source (github.com/autobrr/autobrr, internal/http). Paths are relative to the /api server base."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:7474/api"
+    }
+  ],
+  "security": [
+    {
+      "ApiKeyHeader": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyHeader": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Token"
+      },
+      "ApiKeyQuery": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "apikey"
+      }
+    },
+    "schemas": {
+      "FilterIndexer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "identifier": {
+            "type": "string"
+          }
+        }
+      },
+      "Action": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "TEST",
+              "EXEC",
+              "QBITTORRENT",
+              "DELUGE_V1",
+              "DELUGE_V2",
+              "RTORRENT",
+              "TRANSMISSION",
+              "PORLA",
+              "WATCH_FOLDER",
+              "WEBHOOK",
+              "RADARR",
+              "SONARR",
+              "LIDARR",
+              "WHISPARR",
+              "READARR",
+              "SABNZBD",
+              "NZBGET"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "category": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "save_path": {
+            "type": "string"
+          },
+          "download_path": {
+            "type": "string"
+          },
+          "paused": {
+            "type": "boolean"
+          },
+          "ignore_rules": {
+            "type": "boolean"
+          },
+          "first_last_piece_prio": {
+            "type": "boolean"
+          },
+          "skip_hash_check": {
+            "type": "boolean"
+          },
+          "content_layout": {
+            "type": "string"
+          },
+          "limit_upload_speed": {
+            "type": "integer"
+          },
+          "limit_download_speed": {
+            "type": "integer"
+          },
+          "limit_ratio": {
+            "type": "number"
+          },
+          "limit_seed_time": {
+            "type": "integer"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "reannounce_skip": {
+            "type": "boolean"
+          },
+          "reannounce_delete": {
+            "type": "boolean"
+          },
+          "reannounce_interval": {
+            "type": "integer"
+          },
+          "reannounce_max_attempts": {
+            "type": "integer"
+          },
+          "client_id": {
+            "type": "integer"
+          },
+          "external_download_client_id": {
+            "type": "integer"
+          },
+          "external_download_client": {
+            "type": "string"
+          },
+          "webhook_host": {
+            "type": "string"
+          },
+          "webhook_method": {
+            "type": "string"
+          },
+          "webhook_type": {
+            "type": "string"
+          },
+          "webhook_data": {
+            "type": "string"
+          },
+          "webhook_headers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "exec_cmd": {
+            "type": "string"
+          },
+          "exec_args": {
+            "type": "string"
+          },
+          "watch_folder": {
+            "type": "string"
+          }
+        }
+      },
+      "ExternalFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "WEBHOOK",
+              "EXEC"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "webhook_host": {
+            "type": "string"
+          },
+          "webhook_method": {
+            "type": "string"
+          },
+          "webhook_data": {
+            "type": "string"
+          },
+          "webhook_headers": {
+            "type": "string"
+          },
+          "webhook_expect_status": {
+            "type": "integer"
+          },
+          "webhook_retry_status": {
+            "type": "string"
+          },
+          "webhook_retry_attempts": {
+            "type": "integer"
+          },
+          "webhook_retry_delay_seconds": {
+            "type": "integer"
+          },
+          "exec_cmd": {
+            "type": "string"
+          },
+          "exec_args": {
+            "type": "string"
+          },
+          "exec_expect_status": {
+            "type": "integer"
+          },
+          "on_error": {
+            "type": "string",
+            "enum": [
+              "CONTINUE",
+              "REJECT"
+            ]
+          }
+        }
+      },
+      "Filter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "priority": {
+            "type": "integer"
+          },
+          "use_regex": {
+            "type": "boolean"
+          },
+          "years": {
+            "type": "string"
+          },
+          "seasons": {
+            "type": "string"
+          },
+          "episodes": {
+            "type": "string"
+          },
+          "match_releases": {
+            "type": "string"
+          },
+          "except_releases": {
+            "type": "string"
+          },
+          "match_release_groups": {
+            "type": "string"
+          },
+          "except_release_groups": {
+            "type": "string"
+          },
+          "match_categories": {
+            "type": "string"
+          },
+          "except_categories": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "string"
+          },
+          "except_tags": {
+            "type": "string"
+          },
+          "tags_match_logic": {
+            "type": "string"
+          },
+          "except_tags_match_logic": {
+            "type": "string"
+          },
+          "smart_episode": {
+            "type": "boolean"
+          },
+          "resolutions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "codecs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "containers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "match_hdr": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "except_hdr": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "match_other": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "except_other": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "match_language": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "except_language": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "formats": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "quality": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "media": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "match_release_types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "origins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "except_origins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "min_size": {
+            "type": "string"
+          },
+          "max_size": {
+            "type": "string"
+          },
+          "delay": {
+            "type": "integer"
+          },
+          "indexers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterIndexer"
+            }
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Action"
+            }
+          },
+          "external": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalFilter"
+            }
+          }
+        }
+      },
+      "FilterCreate": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "resolutions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "codecs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "containers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "origins": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "EnabledBody": {
+        "type": "object",
+        "required": [
+          "enabled"
+        ],
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Indexer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "identifier": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string"
+          },
+          "identifier_external": {
+            "type": "string"
+          }
+        }
+      },
+      "IrcNetwork": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "server": {
+            "type": "string"
+          },
+          "port": {
+            "type": "integer"
+          },
+          "tls": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "healthy": {
+            "type": "boolean"
+          },
+          "connected": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Feed": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "url": {
+            "type": "string"
+          },
+          "interval": {
+            "type": "integer"
+          },
+          "indexer_id": {
+            "type": "integer"
+          },
+          "timeout": {
+            "type": "integer"
+          },
+          "max_age": {
+            "type": "integer"
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "api_key": {
+            "type": "string"
+          },
+          "cookie": {
+            "type": "string"
+          },
+          "tls_skip_verify": {
+            "type": "boolean"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/FeedSettings"
+          }
+        }
+      },
+      "Proxy": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string"
+          },
+          "addr": {
+            "type": "string"
+          },
+          "user": {
+            "type": "string"
+          },
+          "pass": {
+            "type": "string"
+          },
+          "timeout": {
+            "type": "integer"
+          }
+        }
+      },
+      "ReleaseProfileDuplicate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "protocol": {
+            "type": "boolean"
+          },
+          "release_name": {
+            "type": "boolean"
+          },
+          "hash": {
+            "type": "boolean"
+          },
+          "title": {
+            "type": "boolean"
+          },
+          "sub_title": {
+            "type": "boolean"
+          },
+          "year": {
+            "type": "boolean"
+          },
+          "month": {
+            "type": "boolean"
+          },
+          "day": {
+            "type": "boolean"
+          },
+          "source": {
+            "type": "boolean"
+          },
+          "resolution": {
+            "type": "boolean"
+          },
+          "codec": {
+            "type": "boolean"
+          },
+          "container": {
+            "type": "boolean"
+          },
+          "dynamic_range": {
+            "type": "boolean"
+          },
+          "audio": {
+            "type": "boolean"
+          },
+          "group": {
+            "type": "boolean"
+          },
+          "season": {
+            "type": "boolean"
+          },
+          "episode": {
+            "type": "boolean"
+          },
+          "website": {
+            "type": "boolean"
+          },
+          "proper": {
+            "type": "boolean"
+          },
+          "repack": {
+            "type": "boolean"
+          },
+          "edition": {
+            "type": "boolean"
+          },
+          "hybrid": {
+            "type": "boolean"
+          },
+          "language": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DownloadClientBasic": {
+        "type": "object",
+        "properties": {
+          "auth": {
+            "type": "boolean"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "DownloadClientRules": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "max_active_downloads": {
+            "type": "integer"
+          },
+          "ignore_slow_torrents": {
+            "type": "boolean"
+          },
+          "ignore_slow_torrents_condition": {
+            "type": "string"
+          },
+          "download_speed_threshold": {
+            "type": "integer"
+          },
+          "upload_speed_threshold": {
+            "type": "integer"
+          }
+        }
+      },
+      "DownloadClientAuth": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "NONE",
+              "BASIC_AUTH",
+              "DIGEST_AUTH"
+            ]
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "DownloadClientSettings": {
+        "type": "object",
+        "properties": {
+          "apikey": {
+            "type": "string"
+          },
+          "basic": {
+            "$ref": "#/components/schemas/DownloadClientBasic"
+          },
+          "auth": {
+            "$ref": "#/components/schemas/DownloadClientAuth"
+          },
+          "rules": {
+            "$ref": "#/components/schemas/DownloadClientRules"
+          },
+          "external_download_client_id": {
+            "type": "integer"
+          },
+          "external_download_client": {
+            "type": "string"
+          }
+        }
+      },
+      "DownloadClient": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "enabled",
+          "host"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "QBITTORRENT",
+              "DELUGE_V1",
+              "DELUGE_V2",
+              "RTORRENT",
+              "TRANSMISSION",
+              "PORLA",
+              "RADARR",
+              "SONARR",
+              "LIDARR",
+              "WHISPARR",
+              "READARR",
+              "SABNZBD",
+              "NZBGET"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "host": {
+            "type": "string"
+          },
+          "port": {
+            "type": "integer"
+          },
+          "tls": {
+            "type": "boolean"
+          },
+          "tls_skip_verify": {
+            "type": "boolean"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "settings": {
+            "$ref": "#/components/schemas/DownloadClientSettings"
+          }
+        }
+      },
+      "NotificationEvent": {
+        "type": "string",
+        "enum": [
+          "PUSH_APPROVED",
+          "PUSH_REJECTED",
+          "PUSH_ERROR",
+          "IRC_DISCONNECTED",
+          "IRC_RECONNECTED",
+          "APP_UPDATE_AVAILABLE",
+          "RELEASE_NEW",
+          "TEST"
+        ]
+      },
+      "Notification": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "enabled",
+          "events"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "DISCORD",
+              "NOTIFIARR",
+              "IFTTT",
+              "JOIN",
+              "MATTERMOST",
+              "MATRIX",
+              "PUSH_BULLET",
+              "PUSHOVER",
+              "ROCKETCHAT",
+              "SLACK",
+              "TELEGRAM",
+              "GOTIFY",
+              "NTFY",
+              "LUNASEA",
+              "SHOUTRRR",
+              "WEBHOOK"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationEvent"
+            }
+          },
+          "webhook": {
+            "type": "string"
+          },
+          "api_key": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "channel": {
+            "type": "string"
+          },
+          "topic": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "rooms": {
+            "type": "string"
+          },
+          "targets": {
+            "type": "string"
+          },
+          "devices": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "integer"
+          },
+          "sound": {
+            "type": "string"
+          },
+          "method": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "string"
+          },
+          "event_sounds": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ApiKey": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "ApiKeyCreate": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Config": {
+        "type": "object",
+        "properties": {
+          "host": {
+            "type": "string"
+          },
+          "port": {
+            "type": "integer"
+          },
+          "log_level": {
+            "type": "string"
+          },
+          "log_path": {
+            "type": "string"
+          },
+          "check_for_updates": {
+            "type": "boolean"
+          },
+          "version": {
+            "type": "string"
+          },
+          "database": {
+            "type": "string"
+          }
+        }
+      },
+      "ConfigUpdate": {
+        "type": "object",
+        "properties": {
+          "log_level": {
+            "type": "string"
+          },
+          "check_for_updates": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ListFilter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "List": {
+        "type": "object",
+        "required": [
+          "name",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "RADARR",
+              "SONARR",
+              "LIDARR",
+              "READARR",
+              "WHISPARR",
+              "MDBLIST",
+              "METACRITIC",
+              "PLAINTEXT",
+              "TRAKT",
+              "STEAM",
+              "ANILIST"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "client_id": {
+            "type": "integer"
+          },
+          "url": {
+            "type": "string"
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "api_key": {
+            "type": "string"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ListFilter"
+            }
+          },
+          "match_release": {
+            "type": "boolean"
+          },
+          "tags_included": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "tags_excluded": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "include_unmonitored": {
+            "type": "boolean"
+          },
+          "include_alternate_titles": {
+            "type": "boolean"
+          },
+          "include_year": {
+            "type": "boolean"
+          },
+          "skip_clean_sanitize": {
+            "type": "boolean"
+          }
+        }
+      },
+      "FeedSettings": {
+        "type": "object",
+        "properties": {
+          "download_type": {
+            "type": "string",
+            "enum": [
+              "TORRENT",
+              "MAGNET",
+              "NZB"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/config": {
+      "get": {
+        "operationId": "get_config",
+        "summary": "Get application config",
+        "responses": {
+          "200": {
+            "description": "Get application config",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Config"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "patch_config",
+        "summary": "Update application config",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfigUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update application config"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "post_auth_login",
+        "summary": "Log in",
+        "responses": {
+          "200": {
+            "description": "Log in"
+          }
+        }
+      }
+    },
+    "/auth/onboard": {
+      "get": {
+        "operationId": "get_auth_onboard",
+        "summary": "Check if onboarding is available",
+        "responses": {
+          "200": {
+            "description": "Check if onboarding is available"
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_auth_onboard",
+        "summary": "Onboard the first user",
+        "responses": {
+          "200": {
+            "description": "Onboard the first user"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "post_auth_logout",
+        "summary": "Log out",
+        "responses": {
+          "200": {
+            "description": "Log out"
+          }
+        }
+      }
+    },
+    "/auth/validate": {
+      "get": {
+        "operationId": "get_auth_validate",
+        "summary": "Validate the current session",
+        "responses": {
+          "200": {
+            "description": "Validate the current session"
+          }
+        }
+      }
+    },
+    "/auth/user/{username}": {
+      "patch": {
+        "operationId": "patch_auth_user__username",
+        "summary": "Update a user",
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update a user"
+          }
+        }
+      }
+    },
+    "/healthz/liveness": {
+      "get": {
+        "operationId": "get_healthz_liveness",
+        "summary": "Liveness probe",
+        "responses": {
+          "200": {
+            "description": "Liveness probe"
+          }
+        }
+      }
+    },
+    "/healthz/readiness": {
+      "get": {
+        "operationId": "get_healthz_readiness",
+        "summary": "Readiness probe",
+        "responses": {
+          "200": {
+            "description": "Readiness probe"
+          }
+        }
+      }
+    },
+    "/actions": {
+      "get": {
+        "operationId": "get_actions",
+        "summary": "List all filter actions",
+        "responses": {
+          "200": {
+            "description": "List all filter actions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Action"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_actions",
+        "summary": "Create an action",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Action"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create an action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Action"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/{actionID}": {
+      "delete": {
+        "operationId": "delete_actions__actionID",
+        "summary": "Delete an action",
+        "parameters": [
+          {
+            "name": "actionID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete an action"
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_actions__actionID",
+        "summary": "Update an action",
+        "parameters": [
+          {
+            "name": "actionID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Action"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update an action"
+          }
+        }
+      }
+    },
+    "/actions/{actionID}/toggleEnabled": {
+      "patch": {
+        "operationId": "patch_actions__actionID__toggleEnabled",
+        "summary": "Toggle an action enabled",
+        "parameters": [
+          {
+            "name": "actionID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Toggle an action enabled"
+          }
+        }
+      }
+    },
+    "/keys": {
+      "get": {
+        "operationId": "get_keys",
+        "summary": "List API keys",
+        "responses": {
+          "200": {
+            "description": "List API keys",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ApiKey"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_keys",
+        "summary": "Create an API key",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiKeyCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create an API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiKey"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keys/{apikey}": {
+      "delete": {
+        "operationId": "delete_keys__apikey",
+        "summary": "Delete an API key",
+        "parameters": [
+          {
+            "name": "apikey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete an API key"
+          }
+        }
+      }
+    },
+    "/download_clients": {
+      "get": {
+        "operationId": "get_download_clients",
+        "summary": "List download clients",
+        "responses": {
+          "200": {
+            "description": "List download clients",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DownloadClient"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_download_clients",
+        "summary": "Create a download client",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadClient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create a download client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadClient"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_download_clients",
+        "summary": "Update a download client",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadClient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update a download client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadClient"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/download_clients/test": {
+      "post": {
+        "operationId": "post_download_clients_test",
+        "summary": "Test a download client",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DownloadClient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Test a download client"
+          }
+        }
+      }
+    },
+    "/download_clients/{clientID}": {
+      "get": {
+        "operationId": "get_download_clients__clientID",
+        "summary": "Get a download client",
+        "parameters": [
+          {
+            "name": "clientID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a download client",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DownloadClient"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_download_clients__clientID",
+        "summary": "Delete a download client",
+        "parameters": [
+          {
+            "name": "clientID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a download client"
+          }
+        }
+      }
+    },
+    "/download_clients/{clientID}/arr/tags": {
+      "get": {
+        "operationId": "get_download_clients__clientID__arr_tags",
+        "summary": "List arr tags for a client",
+        "parameters": [
+          {
+            "name": "clientID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List arr tags for a client"
+          }
+        }
+      }
+    },
+    "/feeds": {
+      "get": {
+        "operationId": "get_feeds",
+        "summary": "List feeds",
+        "responses": {
+          "200": {
+            "description": "List feeds",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Feed"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_feeds",
+        "summary": "Create a feed",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feed"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create a feed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feed"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feeds/test": {
+      "post": {
+        "operationId": "post_feeds_test",
+        "summary": "Test a feed",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feed"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Test a feed"
+          }
+        }
+      }
+    },
+    "/feeds/caps": {
+      "post": {
+        "operationId": "post_feeds_caps",
+        "summary": "Fetch feed caps",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feed"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Fetch feed caps"
+          }
+        }
+      }
+    },
+    "/feeds/{feedID}": {
+      "get": {
+        "operationId": "get_feeds__feedID",
+        "summary": "Get a feed",
+        "parameters": [
+          {
+            "name": "feedID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a feed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_feeds__feedID",
+        "summary": "Update a feed",
+        "parameters": [
+          {
+            "name": "feedID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Feed"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update a feed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Feed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_feeds__feedID",
+        "summary": "Delete a feed",
+        "parameters": [
+          {
+            "name": "feedID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a feed"
+          }
+        }
+      }
+    },
+    "/feeds/{feedID}/cache": {
+      "delete": {
+        "operationId": "delete_feeds__feedID__cache",
+        "summary": "Clear a feed cache",
+        "parameters": [
+          {
+            "name": "feedID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Clear a feed cache"
+          }
+        }
+      }
+    },
+    "/feeds/{feedID}/enabled": {
+      "patch": {
+        "operationId": "patch_feeds__feedID__enabled",
+        "summary": "Toggle a feed enabled",
+        "parameters": [
+          {
+            "name": "feedID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnabledBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Toggle a feed enabled"
+          }
+        }
+      }
+    },
+    "/feeds/{feedID}/latest": {
+      "get": {
+        "operationId": "get_feeds__feedID__latest",
+        "summary": "Get a feed's latest run",
+        "parameters": [
+          {
+            "name": "feedID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a feed's latest run"
+          }
+        }
+      }
+    },
+    "/feeds/{feedID}/forcerun": {
+      "post": {
+        "operationId": "post_feeds__feedID__forcerun",
+        "summary": "Force-run a feed",
+        "parameters": [
+          {
+            "name": "feedID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Force-run a feed"
+          }
+        }
+      }
+    },
+    "/feeds/{feedID}/caps": {
+      "get": {
+        "operationId": "get_feeds__feedID__caps",
+        "summary": "Get a feed's caps",
+        "parameters": [
+          {
+            "name": "feedID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a feed's caps"
+          }
+        }
+      }
+    },
+    "/filters": {
+      "get": {
+        "operationId": "get_filters",
+        "summary": "List filters",
+        "responses": {
+          "200": {
+            "description": "List filters",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Filter"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_filters",
+        "summary": "Create a filter",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FilterCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create a filter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Filter"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/filters/{filterID}": {
+      "get": {
+        "operationId": "get_filters__filterID",
+        "summary": "Get a filter",
+        "parameters": [
+          {
+            "name": "filterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a filter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Filter"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_filters__filterID",
+        "summary": "Update a filter",
+        "parameters": [
+          {
+            "name": "filterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Filter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update a filter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Filter"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "patch_filters__filterID",
+        "summary": "Partially update a filter",
+        "parameters": [
+          {
+            "name": "filterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Filter"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Partially update a filter",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Filter"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_filters__filterID",
+        "summary": "Delete a filter",
+        "parameters": [
+          {
+            "name": "filterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a filter"
+          }
+        }
+      }
+    },
+    "/filters/{filterID}/duplicate": {
+      "get": {
+        "operationId": "get_filters__filterID__duplicate",
+        "summary": "Duplicate a filter",
+        "parameters": [
+          {
+            "name": "filterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Duplicate a filter"
+          }
+        }
+      }
+    },
+    "/filters/{filterID}/enabled": {
+      "put": {
+        "operationId": "put_filters__filterID__enabled",
+        "summary": "Toggle a filter enabled",
+        "parameters": [
+          {
+            "name": "filterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnabledBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Toggle a filter enabled"
+          }
+        }
+      }
+    },
+    "/filters/{filterID}/notifications": {
+      "get": {
+        "operationId": "get_filters__filterID__notifications",
+        "summary": "List a filter's notifications",
+        "parameters": [
+          {
+            "name": "filterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List a filter's notifications"
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_filters__filterID__notifications",
+        "summary": "Update a filter's notifications",
+        "parameters": [
+          {
+            "name": "filterID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update a filter's notifications"
+          }
+        }
+      }
+    },
+    "/indexer": {
+      "get": {
+        "operationId": "get_indexer",
+        "summary": "List indexers",
+        "responses": {
+          "200": {
+            "description": "List indexers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Indexer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_indexer",
+        "summary": "Create an indexer",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Indexer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create an indexer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Indexer"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/indexer/schema": {
+      "get": {
+        "operationId": "get_indexer_schema",
+        "summary": "Get indexer schema definitions",
+        "responses": {
+          "200": {
+            "description": "Get indexer schema definitions"
+          }
+        }
+      }
+    },
+    "/indexer/options": {
+      "get": {
+        "operationId": "get_indexer_options",
+        "summary": "List indexer options",
+        "responses": {
+          "200": {
+            "description": "List indexer options"
+          }
+        }
+      }
+    },
+    "/indexer/{indexerID}": {
+      "get": {
+        "operationId": "get_indexer__indexerID",
+        "summary": "Get an indexer",
+        "parameters": [
+          {
+            "name": "indexerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get an indexer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Indexer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_indexer__indexerID",
+        "summary": "Update an indexer",
+        "parameters": [
+          {
+            "name": "indexerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Indexer"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update an indexer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Indexer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_indexer__indexerID",
+        "summary": "Delete an indexer",
+        "parameters": [
+          {
+            "name": "indexerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete an indexer"
+          }
+        }
+      }
+    },
+    "/indexer/{indexerID}/api/test": {
+      "post": {
+        "operationId": "post_indexer__indexerID__api_test",
+        "summary": "Test an indexer's API",
+        "parameters": [
+          {
+            "name": "indexerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Test an indexer's API"
+          }
+        }
+      }
+    },
+    "/indexer/{indexerID}/enabled": {
+      "patch": {
+        "operationId": "patch_indexer__indexerID__enabled",
+        "summary": "Toggle an indexer enabled",
+        "parameters": [
+          {
+            "name": "indexerID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnabledBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Toggle an indexer enabled"
+          }
+        }
+      }
+    },
+    "/irc": {
+      "get": {
+        "operationId": "get_irc",
+        "summary": "List IRC networks",
+        "responses": {
+          "200": {
+            "description": "List IRC networks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IrcNetwork"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_irc",
+        "summary": "Create an IRC network",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IrcNetwork"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create an IRC network",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IrcNetwork"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/irc/network/{networkID}": {
+      "get": {
+        "operationId": "get_irc_network__networkID",
+        "summary": "Get an IRC network",
+        "parameters": [
+          {
+            "name": "networkID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get an IRC network",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IrcNetwork"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_irc_network__networkID",
+        "summary": "Update an IRC network",
+        "parameters": [
+          {
+            "name": "networkID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IrcNetwork"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update an IRC network",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IrcNetwork"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_irc_network__networkID",
+        "summary": "Delete an IRC network",
+        "parameters": [
+          {
+            "name": "networkID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete an IRC network"
+          }
+        }
+      }
+    },
+    "/irc/network/{networkID}/cmd": {
+      "post": {
+        "operationId": "post_irc_network__networkID__cmd",
+        "summary": "Send an IRC command",
+        "parameters": [
+          {
+            "name": "networkID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Send an IRC command"
+          }
+        }
+      }
+    },
+    "/irc/network/{networkID}/channel": {
+      "post": {
+        "operationId": "post_irc_network__networkID__channel",
+        "summary": "Add an IRC channel",
+        "parameters": [
+          {
+            "name": "networkID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Add an IRC channel"
+          }
+        }
+      }
+    },
+    "/irc/network/{networkID}/restart": {
+      "get": {
+        "operationId": "get_irc_network__networkID__restart",
+        "summary": "Restart an IRC network",
+        "parameters": [
+          {
+            "name": "networkID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Restart an IRC network"
+          }
+        }
+      }
+    },
+    "/irc/network/{networkID}/channel/{channel}/announce/process": {
+      "post": {
+        "operationId": "post_irc_network__networkID__channel__channel__announce_process",
+        "summary": "Process an announce",
+        "parameters": [
+          {
+            "name": "networkID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "channel",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Process an announce"
+          }
+        }
+      }
+    },
+    "/irc/network/{networkID}/channel/{channel}/history": {
+      "get": {
+        "operationId": "get_irc_network__networkID__channel__channel__history",
+        "summary": "Get an IRC channel's message history",
+        "parameters": [
+          {
+            "name": "networkID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "channel",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get an IRC channel's message history"
+          }
+        }
+      }
+    },
+    "/lists": {
+      "get": {
+        "operationId": "get_lists",
+        "summary": "List lists",
+        "responses": {
+          "200": {
+            "description": "List lists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/List"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_lists",
+        "summary": "Create a list",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/List"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create a list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/List"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/lists/refresh": {
+      "post": {
+        "operationId": "post_lists_refresh",
+        "summary": "Refresh all lists",
+        "responses": {
+          "200": {
+            "description": "Refresh all lists"
+          }
+        }
+      }
+    },
+    "/lists/{listID}": {
+      "put": {
+        "operationId": "put_lists__listID",
+        "summary": "Update a list",
+        "parameters": [
+          {
+            "name": "listID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/List"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update a list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/List"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_lists__listID",
+        "summary": "Delete a list",
+        "parameters": [
+          {
+            "name": "listID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a list"
+          }
+        }
+      }
+    },
+    "/lists/{listID}/refresh": {
+      "post": {
+        "operationId": "post_lists__listID__refresh",
+        "summary": "Refresh a list",
+        "parameters": [
+          {
+            "name": "listID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Refresh a list"
+          }
+        }
+      }
+    },
+    "/logs/files": {
+      "get": {
+        "operationId": "get_logs_files",
+        "summary": "List log files",
+        "responses": {
+          "200": {
+            "description": "List log files"
+          }
+        }
+      }
+    },
+    "/logs/files/{logFile}": {
+      "get": {
+        "operationId": "get_logs_files__logFile",
+        "summary": "Download a log file",
+        "parameters": [
+          {
+            "name": "logFile",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Download a log file"
+          }
+        }
+      }
+    },
+    "/notification": {
+      "get": {
+        "operationId": "get_notification",
+        "summary": "List notification agents",
+        "responses": {
+          "200": {
+            "description": "List notification agents",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_notification",
+        "summary": "Create a notification agent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create a notification agent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notification"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notification/test": {
+      "post": {
+        "operationId": "post_notification_test",
+        "summary": "Test a notification agent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Test a notification agent"
+          }
+        }
+      }
+    },
+    "/notification/pushover/sounds": {
+      "get": {
+        "operationId": "get_notification_pushover_sounds",
+        "summary": "List Pushover sounds",
+        "responses": {
+          "200": {
+            "description": "List Pushover sounds"
+          }
+        }
+      }
+    },
+    "/notification/{notificationID}": {
+      "get": {
+        "operationId": "get_notification__notificationID",
+        "summary": "Get a notification agent",
+        "parameters": [
+          {
+            "name": "notificationID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a notification agent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notification"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_notification__notificationID",
+        "summary": "Update a notification agent",
+        "parameters": [
+          {
+            "name": "notificationID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Notification"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update a notification agent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Notification"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_notification__notificationID",
+        "summary": "Delete a notification agent",
+        "parameters": [
+          {
+            "name": "notificationID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a notification agent"
+          }
+        }
+      }
+    },
+    "/proxy": {
+      "get": {
+        "operationId": "get_proxy",
+        "summary": "List proxies",
+        "responses": {
+          "200": {
+            "description": "List proxies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Proxy"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_proxy",
+        "summary": "Create a proxy",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Proxy"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create a proxy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Proxy"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/proxy/test": {
+      "post": {
+        "operationId": "post_proxy_test",
+        "summary": "Test a proxy",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Proxy"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Test a proxy"
+          }
+        }
+      }
+    },
+    "/proxy/{proxyID}": {
+      "get": {
+        "operationId": "get_proxy__proxyID",
+        "summary": "Get a proxy",
+        "parameters": [
+          {
+            "name": "proxyID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a proxy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Proxy"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_proxy__proxyID",
+        "summary": "Update a proxy",
+        "parameters": [
+          {
+            "name": "proxyID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Proxy"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update a proxy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Proxy"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_proxy__proxyID",
+        "summary": "Delete a proxy",
+        "parameters": [
+          {
+            "name": "proxyID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a proxy"
+          }
+        }
+      }
+    },
+    "/release": {
+      "get": {
+        "operationId": "get_release",
+        "summary": "Search releases",
+        "responses": {
+          "200": {
+            "description": "Search releases"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_release",
+        "summary": "Delete releases",
+        "responses": {
+          "200": {
+            "description": "Delete releases"
+          }
+        }
+      }
+    },
+    "/release/recent": {
+      "get": {
+        "operationId": "get_release_recent",
+        "summary": "List recent releases",
+        "responses": {
+          "200": {
+            "description": "List recent releases"
+          }
+        }
+      }
+    },
+    "/release/stats": {
+      "get": {
+        "operationId": "get_release_stats",
+        "summary": "Get release stats",
+        "responses": {
+          "200": {
+            "description": "Get release stats"
+          }
+        }
+      }
+    },
+    "/release/indexers": {
+      "get": {
+        "operationId": "get_release_indexers",
+        "summary": "List release indexer options",
+        "responses": {
+          "200": {
+            "description": "List release indexer options"
+          }
+        }
+      }
+    },
+    "/release/{releaseID}": {
+      "get": {
+        "operationId": "get_release__releaseID",
+        "summary": "Get a release",
+        "parameters": [
+          {
+            "name": "releaseID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a release"
+          }
+        }
+      }
+    },
+    "/release/{releaseID}/actions/{actionStatusID}/retry": {
+      "post": {
+        "operationId": "post_release__releaseID__actions__actionStatusID__retry",
+        "summary": "Retry a release action",
+        "parameters": [
+          {
+            "name": "releaseID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "actionStatusID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retry a release action"
+          }
+        }
+      }
+    },
+    "/release/profiles/duplicate": {
+      "get": {
+        "operationId": "get_release_profiles_duplicate",
+        "summary": "List release duplicate profiles",
+        "responses": {
+          "200": {
+            "description": "List release duplicate profiles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReleaseProfileDuplicate"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_release_profiles_duplicate",
+        "summary": "Create a release duplicate profile",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReleaseProfileDuplicate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create a release duplicate profile",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReleaseProfileDuplicate"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/release/profiles/duplicate/{profileId}": {
+      "delete": {
+        "operationId": "delete_release_profiles_duplicate__profileId",
+        "summary": "Delete a release duplicate profile",
+        "parameters": [
+          {
+            "name": "profileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a release duplicate profile"
+          }
+        }
+      }
+    },
+    "/release/cleanup-jobs": {
+      "get": {
+        "operationId": "get_release_cleanup_jobs",
+        "summary": "List cleanup jobs",
+        "responses": {
+          "200": {
+            "description": "List cleanup jobs"
+          }
+        }
+      },
+      "post": {
+        "operationId": "post_release_cleanup_jobs",
+        "summary": "Create a cleanup job",
+        "responses": {
+          "200": {
+            "description": "Create a cleanup job"
+          }
+        }
+      }
+    },
+    "/release/cleanup-jobs/{jobID}": {
+      "get": {
+        "operationId": "get_release_cleanup_jobs__jobID",
+        "summary": "Get a cleanup job",
+        "parameters": [
+          {
+            "name": "jobID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get a cleanup job"
+          }
+        }
+      },
+      "put": {
+        "operationId": "put_release_cleanup_jobs__jobID",
+        "summary": "Update a cleanup job",
+        "parameters": [
+          {
+            "name": "jobID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update a cleanup job"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_release_cleanup_jobs__jobID",
+        "summary": "Delete a cleanup job",
+        "parameters": [
+          {
+            "name": "jobID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete a cleanup job"
+          }
+        }
+      }
+    },
+    "/release/cleanup-jobs/{jobID}/enabled": {
+      "patch": {
+        "operationId": "patch_release_cleanup_jobs__jobID__enabled",
+        "summary": "Toggle a cleanup job enabled",
+        "parameters": [
+          {
+            "name": "jobID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnabledBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Toggle a cleanup job enabled"
+          }
+        }
+      }
+    },
+    "/release/cleanup-jobs/{jobID}/run": {
+      "post": {
+        "operationId": "post_release_cleanup_jobs__jobID__run",
+        "summary": "Force-run a cleanup job",
+        "parameters": [
+          {
+            "name": "jobID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Force-run a cleanup job"
+          }
+        }
+      }
+    },
+    "/updates/latest": {
+      "get": {
+        "operationId": "get_updates_latest",
+        "summary": "Get latest release info",
+        "responses": {
+          "200": {
+            "description": "Get latest release info"
+          }
+        }
+      }
+    },
+    "/updates/check": {
+      "get": {
+        "operationId": "get_updates_check",
+        "summary": "Check for updates",
+        "responses": {
+          "200": {
+            "description": "Check for updates"
+          }
+        }
+      }
+    },
+    "/webhook/lists/trigger": {
+      "post": {
+        "operationId": "post_webhook_lists_trigger",
+        "summary": "Trigger list refresh (all)",
+        "responses": {
+          "200": {
+            "description": "Trigger list refresh (all)"
+          }
+        }
+      },
+      "get": {
+        "operationId": "get_webhook_lists_trigger",
+        "summary": "Trigger list refresh (all) (GET)",
+        "responses": {
+          "200": {
+            "description": "Trigger list refresh (all) (GET)"
+          }
+        }
+      }
+    },
+    "/webhook/lists/trigger/arr": {
+      "post": {
+        "operationId": "post_webhook_lists_trigger_arr",
+        "summary": "Trigger list refresh/arr",
+        "responses": {
+          "200": {
+            "description": "Trigger list refresh/arr"
+          }
+        }
+      },
+      "get": {
+        "operationId": "get_webhook_lists_trigger_arr",
+        "summary": "Trigger list refresh/arr (GET)",
+        "responses": {
+          "200": {
+            "description": "Trigger list refresh/arr (GET)"
+          }
+        }
+      }
+    },
+    "/webhook/lists/trigger/lists": {
+      "post": {
+        "operationId": "post_webhook_lists_trigger_lists",
+        "summary": "Trigger list refresh/lists",
+        "responses": {
+          "200": {
+            "description": "Trigger list refresh/lists"
+          }
+        }
+      },
+      "get": {
+        "operationId": "get_webhook_lists_trigger_lists",
+        "summary": "Trigger list refresh/lists (GET)",
+        "responses": {
+          "200": {
+            "description": "Trigger list refresh/lists (GET)"
+          }
+        }
+      }
+    },
+    "/webhook/lists/trigger/{listID}": {
+      "post": {
+        "operationId": "post_webhook_lists_trigger__listID",
+        "summary": "Trigger a list refresh by id",
+        "parameters": [
+          {
+            "name": "listID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trigger a list refresh by id"
+          }
+        }
+      }
+    }
+  }
+}

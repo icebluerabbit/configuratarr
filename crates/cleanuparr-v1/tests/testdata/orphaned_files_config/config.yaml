@@ -1,0 +1,9 @@
+enabled: true
+scan_directories:
+  - /data/torrents
+orphaned_directory: /data/orphaned
+exclude_patterns:
+  - "*.nfo"
+  - ".DS_Store"
+min_file_age_hours: 48
+purge_after_hours: 720

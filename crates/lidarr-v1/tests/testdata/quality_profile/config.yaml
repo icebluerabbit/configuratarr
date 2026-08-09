@@ -1,0 +1,15 @@
+name: e2e-quality-profile
+upgrade_allowed: true
+cutoff: 1
+min_format_score: 0
+cutoff_format_score: 0
+items:
+  - name: FLAC
+    quality:
+      id: 1
+      name: FLAC
+    items: []
+    allowed: true
+format_items:
+  - format: "${ref.custom_format.e2e-custom-format}"
+    score: 10

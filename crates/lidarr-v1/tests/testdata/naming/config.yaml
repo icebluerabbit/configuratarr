@@ -1,0 +1,12 @@
+rename_tracks: true
+replace_illegal_characters: true
+colon_replacement_format: 1
+standard_track_format: "{Artist Name} - {Album Title} - {track:00} - {Track Title}"
+multi_disc_track_format: "{Artist Name} - {Album Title} - {disc}-{track:00} - {Track Title}"
+artist_folder_format: "{Artist Name}"
+include_artist_name: false
+include_album_title: false
+include_quality: false
+replace_spaces: false
+separator: " "
+number_style: "01"

@@ -1,0 +1,10 @@
+name: Remux
+include_custom_format_when_renaming: false
+specifications:
+  - name: Source
+    implementation: ReleaseTitleSpecification
+    negate: false
+    required: true
+    fields:
+      - name: value
+        value: remux

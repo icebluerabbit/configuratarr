@@ -1,0 +1,8 @@
+first_day_of_week: 1
+short_date_format: "MMM D YYYY"
+long_date_format: "dddd, MMMM D YYYY"
+time_format: "h(:mm)a"
+show_relative_dates: true
+enable_color_impaired_mode: false
+ui_language: "1"
+theme: auto

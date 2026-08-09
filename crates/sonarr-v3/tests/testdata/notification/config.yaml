@@ -1,0 +1,20 @@
+name: My Webhook
+implementation: Webhook
+on_grab: true
+on_download: true
+on_upgrade: true
+on_import_complete: true
+on_rename: false
+on_series_add: false
+on_series_delete: false
+on_episode_file_delete: false
+on_episode_file_delete_for_upgrade: false
+on_health_issue: true
+on_health_restored: true
+on_application_update: true
+on_manual_interaction_required: false
+include_health_warnings: true
+tags:
+  - "${ref.tag.notifications}"
+url: "${env.WEBHOOK_URL}"
+method: 1

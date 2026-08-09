@@ -1,0 +1,75 @@
+[package]
+name    = "configuratarr"
+version = "0.1.1"
+edition = "2024"
+
+[[bin]]
+name = "configuratarr"
+path = "src/main.rs"
+
+[dependencies]
+core-cli     = { path = "crates/core-cli" }
+core-config  = { path = "crates/core-config" }
+anyhow.workspace           = true
+clap.workspace             = true
+tokio.workspace            = true
+tracing.workspace          = true
+tracing-subscriber.workspace = true
+
+[workspace]
+members = [
+    ".",
+    "crates/core",
+    "crates/core-macros",
+    "crates/core-testkit",
+    "crates/core-http",
+    "crates/radarr-v3",
+    "crates/sonarr-v3",
+    "crates/prowlarr-v1",
+    "crates/lidarr-v1",
+    "crates/jellyfin-v11",
+    "crates/bazarr-v1",
+    "crates/autobrr-v1",
+    "crates/lazylibrarian-v1",
+    "crates/cleanuparr-v1",
+    "crates/service-registry",
+    "crates/core-config",
+    "crates/core-cli",
+    "crates/cmd-doc-gen",
+    "crates/config-doc-gen",
+]
+resolver = "2"
+
+[workspace.dependencies]
+anyhow             = "1.0"
+# rustls-no-provider: we hand reqwest a preconfigured rustls ClientConfig
+# (use_preconfigured_tls) built with the ring provider + bundled webpki roots.
+# Avoids aws-lc/cmake and rustls-platform-verifier's OS-trust-store read (which
+# fails in the CA-less nix build sandbox). See core-http.
+reqwest            = { version = "0.13", default-features = false, features = ["json", "form", "cookies", "rustls-no-provider"] }
+rustls             = { version = "0.23", default-features = false, features = ["ring", "std", "tls12", "logging"] }
+webpki-roots       = "1"
+tokio              = { version = "1", features = ["full"] }
+serde              = { version = "1.0", features = ["derive"] }
+serde_json         = "1.0"
+serde-saphyr       = "1.0.0"
+secrecy            = { version = "0.10.3", features = ["serde"] }
+zeroize            = "1.8"
+base64             = "0.23"
+md-5               = "0.11"
+owo-colors         = { version = "4.3.0", features = ["supports-colors"] }
+tracing            = "0.1"
+tracing-subscriber = "0.3"
+wiremock           = "0.6"
+jsonschema         = { version = "0.49", default-features = false }
+clap               = { version = "4.5", features = ["derive", "env"] }
+# Held at 2 to match darling, which still requires syn ^2.0.15 as of 0.23.
+# core-macros converts syn::Error into darling::Error, and that `From` impl only
+# exists for the syn major darling itself builds against — so a syn 3 workspace
+# fails to compile. Bump once darling releases syn 3 support (see the matching
+# dependabot ignore).
+syn                = { version = "3", features = ["full"] }
+quote              = "1"
+darling            = "0.24"
+proc-macro2        = "1"
+clap-markdown      = "0.1"

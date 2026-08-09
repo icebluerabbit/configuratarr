@@ -1,0 +1,8 @@
+name: my-torznab
+identifier: torznab
+implementation: torznab
+identifier_external: TorrentLeech
+enabled: true
+settings:
+  url: https://tracker.example.org/torznab
+  api_key: "${env.TORZNAB_KEY}"

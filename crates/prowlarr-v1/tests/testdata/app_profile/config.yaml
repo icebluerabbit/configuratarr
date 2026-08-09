@@ -1,0 +1,5 @@
+name: Standard
+enable_rss: true
+enable_automatic_search: true
+enable_interactive_search: true
+minimum_seeders: 1

@@ -1,0 +1,3 @@
+host: seedbox.local
+remote_path: /remote/downloads
+local_path: /local/downloads

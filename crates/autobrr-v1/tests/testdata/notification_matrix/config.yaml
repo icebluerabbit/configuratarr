@@ -1,0 +1,11 @@
+name: matrix-releases
+notification_type: MATRIX
+enabled: true
+events:
+  - PUSH_APPROVED
+  - PUSH_REJECTED
+  - RELEASE_NEW
+host: "https://matrix.example.tld"
+username: "@autobrr:example.tld"
+password: "${env.MATRIX_PASSWORD}"
+channel: "!roomid:example.tld"

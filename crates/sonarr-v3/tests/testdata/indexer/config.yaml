@@ -1,0 +1,15 @@
+name: Prowlarr
+implementation: Newznab
+enable_rss: true
+enable_automatic_search: true
+enable_interactive_search: false
+protocol: usenet
+priority: 25
+tags:
+  - "${ref.tag.indexers}"
+base_url: "http://prowlarr:9696"
+api_path: /api
+api_key: "${env.PROWLARR_API_KEY}"
+categories:
+  - 5000
+anime_categories: []

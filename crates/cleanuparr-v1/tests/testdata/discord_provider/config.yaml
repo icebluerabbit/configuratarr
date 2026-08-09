@@ -1,0 +1,13 @@
+name: discord
+is_enabled: true
+on_failed_import_strike: true
+on_stalled_strike: true
+on_slow_strike: false
+on_queue_item_deleted: false
+on_download_cleaned: true
+on_category_changed: false
+on_search_triggered: false
+on_search_item_grabbed: false
+webhook_url: "${env.CLEANUPARR_DISCORD_WEBHOOK_URL}"
+username: "Cleanuparr"
+avatar_url: "https://example.com/cleanuparr.png"

@@ -1,0 +1,10 @@
+first_day_of_week: 1
+show_relative_dates: false
+enable_color_impaired_mode: false
+ui_language: 1
+expand_album_by_default: false
+expand_single_by_default: false
+expand_ep_by_default: false
+expand_broadcast_by_default: false
+expand_other_by_default: false
+theme: auto
