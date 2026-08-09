@@ -153,9 +153,8 @@
             apps.generate-docs = {
               type = "app";
               program = "${pkgs.writeShellScript "generate-docs" ''
-                echo "==> Copying generated NixOS and Home Manager options docs..."
+                echo "==> Copying generated NixOS options docs..."
                 cp -f ${configuratarr.docs}/nixos_options.md docs/nixos_options.md
-                cp -f ${configuratarr.docs}/home_manager_options.md docs/home_manager_options.md
                 echo "==> Generating service config docs..."
                 ${configDocGen}/bin/config-doc-gen --output-dir docs
                 echo "==> Generating CLI command docs..."
@@ -180,14 +179,6 @@
             }
           );
 
-          homeManagerModules.default = moduleWithSystem (
-            { config, ... }:
-            { lib, ... }:
-            {
-              imports = [ ./modules/home-manager.nix ];
-              services.configuratarr.package = lib.mkDefault config.packages.default;
-            }
-          );
         };
       }
     );
