@@ -1,79 +1,12 @@
 # Local e2e dev shell for lazylibrarian-v1.
-# Builds LazyLibrarian from source (not in nixpkgs; inlined below), starts it in a
-# temp data dir with a pre-seeded config.ini (API enabled + a fixed 32-char API
-# key, the length LazyLibrarian requires), waits on the authenticated
-# `/api?cmd=getVersion`, and exports LAZYLIBRARIAN_URL + LAZYLIBRARIAN_API_KEY.
-#
-# Best-effort: if it fails to start, check the log path printed below (likely a
-# missing Python dependency — add it to `pyEnv`).
+# LazyLibrarian is not in nixpkgs; the package comes from lazylibrarian-flake.
 {
   pkgs,
   e2eShell,
   common,
+  lazylibrarian,
 }:
 let
-  lazylibrarian =
-    let
-      pyEnv = pkgs.python3.withPackages (
-        ps: with ps; [
-          cherrypy
-          cherrypy-cors
-          cheroot
-          portend
-          python-dateutil
-          requests
-          urllib3
-          pillow
-          apscheduler
-          six
-          mako
-          beautifulsoup4
-          rapidfuzz
-          html5lib
-          webencodings
-          httplib2
-          lxml
-          pypdf
-          chardet
-          charset-normalizer
-          pysocks
-          python-magic
-          xmltodict
-          pyyaml
-          markdown
-          pygments
-          irc
-          tzlocal
-          pytz
-          cryptography
-          pyopenssl
-          oauthlib
-          requests-oauthlib
-          deluge-client
-          apprise
-          httpx
-        ]
-      );
-    in
-    pkgs.stdenvNoCC.mkDerivation {
-      pname = "lazylibrarian";
-      version = "unstable-2026-07-10";
-      src = pkgs.fetchFromGitLab {
-        owner = "LazyLibrarian";
-        repo = "LazyLibrarian";
-        rev = "40a389ea9f354dc20d8aac2a07e4a7d05b348783";
-        sha256 = "186w83nj4c4r0ql1wklg90w233m4284ry50isa28gh1lp8pvdh3m";
-      };
-      nativeBuildInputs = [ pkgs.makeWrapper ];
-      installPhase = ''
-        runHook preInstall
-        mkdir -p $out/share/lazylibrarian $out/bin
-        cp -r . $out/share/lazylibrarian
-        makeWrapper ${pyEnv}/bin/python3 $out/bin/lazylibrarian \
-          --add-flags "$out/share/lazylibrarian/LazyLibrarian.py"
-        runHook postInstall
-      '';
-    };
   apiKey = "configuratarre2e0000000000000000"; # exactly 32 chars
 in
 pkgs.mkShell {

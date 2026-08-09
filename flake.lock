@@ -94,6 +94,46 @@
         "type": "github"
       }
     },
+    "flake-parts_3": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib_3"
+      },
+      "locked": {
+        "lastModified": 1785627969,
+        "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
+    "lazylibrarian-flake": {
+      "inputs": {
+        "flake-parts": "flake-parts_3",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1786256787,
+        "narHash": "sha256-UkpmqBu+acVMtWO7///KMN4EzjlpI8nJ4wbHUi42pbA=",
+        "owner": "icebluerabbit",
+        "repo": "lazylibrarian-flake",
+        "rev": "b8b6ffc2baf40afe8505712bfe24e95ed6059fae",
+        "type": "github"
+      },
+      "original": {
+        "owner": "icebluerabbit",
+        "repo": "lazylibrarian-flake",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1786106723,
@@ -140,12 +180,28 @@
         "type": "github"
       }
     },
+    "nixpkgs-lib_3": {
+      "locked": {
+        "lastModified": 1785031560,
+        "narHash": "sha256-OmshNvn2vupOFpYinLUu+1Dnpu4n7Q5N3ggGVNHpkUI=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "0e79af5e3d4dcfcd676ab5ba3f95d2e3352e078c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "cleanuparr-flake": "cleanuparr-flake",
         "crane": "crane",
         "fenix": "fenix",
         "flake-parts": "flake-parts_2",
+        "lazylibrarian-flake": "lazylibrarian-flake",
         "nixpkgs": "nixpkgs"
       }
     },
@@ -178,6 +234,21 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default-linux",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
         "type": "github"
       }
     }

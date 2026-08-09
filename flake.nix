@@ -22,6 +22,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     crane.url = "github:ipetkov/crane";
+    lazylibrarian-flake = {
+      url = "github:icebluerabbit/lazylibrarian-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # Cleanuparr is not in nixpkgs — and cannot be built from a plain
     # `buildDotnetModule`, since two of its NuGet dependencies live only on a
     # PAT-gated GitHub Packages feed. This flake packages those dependencies too,
@@ -145,11 +149,17 @@
             // mkServiceChecks "jellyfin-v11" (import ./nix/e2e/jellyfin-v11.nix { inherit pkgs; })
             // mkServiceChecks "bazarr-v1" (import ./nix/e2e/bazarr-v1.nix { inherit pkgs; })
             // mkServiceChecks "autobrr-v1" (import ./nix/e2e/autobrr-v1.nix { inherit pkgs; })
-            // mkServiceChecks "lazylibrarian-v1" (import ./nix/e2e/lazylibrarian-v1.nix { inherit pkgs; })
+            // mkServiceChecks "lazylibrarian-v1" (
+              import ./nix/e2e/lazylibrarian-v1.nix {
+                inherit pkgs;
+                lazylibrarian = inputs'.lazylibrarian-flake.packages.lazylibrarian;
+              }
+            )
             // mkServiceChecks "cleanuparr-v1" (
               import ./nix/e2e/cleanuparr-v1.nix {
                 inherit pkgs;
                 cleanuparr = inputs'.cleanuparr-flake.packages.cleanuparr;
+                lazylibrarian = inputs'.lazylibrarian-flake.packages.lazylibrarian;
                 cleanuparrModule = inputs.cleanuparr-flake.nixosModules.cleanuparr;
               }
             );
@@ -172,6 +182,7 @@
             devShells = import ./nix/shells.nix {
               inherit pkgs rustToolchain tools;
               cleanuparr = inputs'.cleanuparr-flake.packages.cleanuparr;
+              lazylibrarian = inputs'.lazylibrarian-flake.packages.lazylibrarian;
             };
           };
 
