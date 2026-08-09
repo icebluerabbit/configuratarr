@@ -141,6 +141,14 @@
               );
 
               rustfmt = craneLib.cargoFmt { inherit (commonArgs) src; };
+
+              python-tools = pkgs.runCommand "python-tools-tests" { nativeBuildInputs = [ pkgs.python3 ]; } ''
+                cp -r ${./tools} tools
+                chmod -R u+w tools
+                cd tools
+                python3 -m unittest discover -p '*_test.py'
+                touch $out
+              '';
             }
             // mkServiceChecks "radarr-v3" (import ./nix/e2e/radarr-v3.nix { inherit pkgs; })
             // mkServiceChecks "sonarr-v3" (import ./nix/e2e/sonarr-v3.nix { inherit pkgs; })
