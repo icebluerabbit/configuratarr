@@ -86,6 +86,8 @@ A Create registers its new server id into RefStore for downstream refs.
 
 **Two-phase, one walk** (`apply::run(.., execute)`): `plan()` previews (no writes; to-be-created ids are `-1` placeholders); `apply()` re-runs and writes. A plan is advisory — apply does not replay a stale Plan, because ids are server-assigned.
 
+**A custom resource is referenceable too**, by a different route: `custom_step` can't see inside the hook, so after it returns it (1) re-lists the collection (`register_refs`, best-effort — a non-array list or a rejected GET just yields nothing) and (2) backfills `RefId::Pending` for any declared key that list didn't cover (`register_pending_ids`). Step 2 is what makes a *plan* of a brand-new custom item survive: the hook wrote nothing, so it can't appear in step 1's GET, and a downstream `${ref}` would hard-error instead of previewing `-1`. Both steps skip resources with no `key_wire` (custom singletons).
+
 ## Merge (sparse update)
 
 PUT body = `merge(live, desired)`: live base, desired wins, omitted keys keep live values. The provider `fields:[{name,value}]` array merges **by name** (live-only entries preserved). This is the one *arr-ism; it lives in `merge.rs` (structural, not codec-dispatched) because the blob is flattened into a Standard resource that can't see it.

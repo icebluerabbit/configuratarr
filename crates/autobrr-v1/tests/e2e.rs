@@ -28,7 +28,7 @@ use std::time::Duration;
 
 use autobrr_v1::AutobrrV1;
 use core_lib::Service;
-use core_lib::apply::{ApplyOptions, Report, apply, wait_healthy};
+use core_lib::apply::{ApplyOptions, Report, apply, plan, wait_healthy};
 use core_testkit::{env_pair, instance};
 use serde_json::{Value, json};
 
@@ -463,6 +463,53 @@ async fn filter_attaches_indexer_by_ref() {
     // Idempotent: a dropped attachment would re-update forever.
     let second = run(&url, &key, cfg, ApplyOptions::default()).await;
     assert_eq!(second.updated, 0, "second apply is a no-op: {second:?}");
+}
+
+/// The same brand-new indexer + referencing filter, but **planned** rather than
+/// applied. In plan mode the custom hook writes nothing, so the indexer is absent
+/// from the post-hook list GET and only the engine's `Pending` backfill keeps
+/// `${ref.indexer.*}` resolvable — without it a first-run plan hard-errors on the
+/// unresolved ref and aborts before any instance is applied. Also asserts the plan
+/// stayed read-only.
+#[tokio::test]
+#[ignore]
+async fn plan_resolves_ref_to_uncreated_custom_indexer() {
+    let Some((url, key)) = setup().await else {
+        return;
+    };
+    let cfg = json!({
+        "indexers": [{
+            "name": "cfg-e2e-planidx",
+            "identifier": "torznab",
+            "implementation": "torznab",
+            "settings": { "url": "https://tracker.example.org/t", "api_key": "K" },
+        }],
+        "filters": [{
+            "name": "cfg-e2e-planfilter",
+            "enabled": true,
+            "indexers": [{ "id": "${ref.indexer.cfg-e2e-planidx}" }],
+        }],
+    });
+
+    let (svc, value) = instance::<AutobrrV1>(&url, &key, cfg);
+    wait_healthy(&svc, Duration::from_secs(60))
+        .await
+        .expect("autobrr healthy");
+    plan(&svc, &value, ApplyOptions::default())
+        .await
+        .expect("plan resolves the ref to a not-yet-created custom indexer");
+
+    // Plan writes nothing: the indexer must not exist on the server.
+    let client = core_lib::apply::connect(&svc.connection())
+        .await
+        .expect("connect");
+    let indexers: Vec<Value> = client.get("/api/indexer").await.expect("list indexers");
+    assert!(
+        !indexers
+            .iter()
+            .any(|i| i.get("name").and_then(Value::as_str) == Some("cfg-e2e-planidx")),
+        "plan must not create the indexer, got {indexers:?}"
+    );
 }
 
 /// Feed create referencing its indexer by `${ref.indexer.<name>}`: proves the
