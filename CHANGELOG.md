@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.1.2](https://github.com/icebluerabbit/configuratarr/compare/v0.1.1...v0.1.2) (2026-08-14)
+
+
+### Bug Fixes
+
+* **core:** resolve refs to not-yet-created custom-sync resources ([c785cd8](https://github.com/icebluerabbit/configuratarr/commit/c785cd888ddc4fbd1181d90b5ddcba4fb2f83265))
+* **nix:** drop a stray lazylibrarian arg from the cleanuparr e2e call ([52ebc4e](https://github.com/icebluerabbit/configuratarr/commit/52ebc4e31c009963d2d69d0d5c4b36d0d63a1b76))
+* **nix:** stop the lazylibrarian e2e shell leaking its relaunch loop ([bc85efb](https://github.com/icebluerabbit/configuratarr/commit/bc85efbdf938347110ab5d1a4622a9caca9556ac))
+
 ## [0.1.1](https://github.com/icebluerabbit/configuratarr/compare/v0.1.0...v0.1.1) (2026-06-16)
 
 
