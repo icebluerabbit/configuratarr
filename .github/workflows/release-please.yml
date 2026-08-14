@@ -20,19 +20,30 @@ jobs:
         id: release
         uses: googleapis/release-please-action@v5
         with:
-          release-type: rust
+          # No `release-type` here on purpose: passing it puts the action in
+          # standalone mode, where it ignores release-please-config.json and
+          # .release-please-manifest.json. The manifest is what records that
+          # 0.1.1 already shipped — without it the action sees no git tag and
+          # no release, and proposes 0.1.0 all over again.
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
 
   upload-assets:
     needs: release-please
-    if: ${{ needs.release-please.outputs.release_created }}
+    # Compared against the string: an output of "false" is still truthy to
+    # GitHub's expression parser, and the matrix would then upload to an
+    # empty tag name.
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
     strategy:
       matrix:
         include:
           - os: ubuntu-latest
             system: x86_64-linux
             platform: linux-amd64
-          - os: ubuntu-latest
+          # Native arm64 runner — building aarch64-linux under QEMU binfmt
+          # emulation made this the longest job in the release by far.
+          - os: ubuntu-24.04-arm
             system: aarch64-linux
             platform: linux-arm64
           - os: macos-13
@@ -46,15 +57,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
 
-      - name: Set up QEMU
-        if: ${{ matrix.system == 'aarch64-linux' }}
-        uses: docker/setup-qemu-action@v3
-
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v16
+        uses: DeterminateSystems/nix-installer-action@v22
+
+      - name: Setup Cachix
+        uses: cachix/cachix-action@v17
         with:
-          extra-conf: |
-            extra-platforms = aarch64-linux
+          name: icebluerabbit-${{ vars.CACHIX_CACHE }}
+          extraPullNames: icebluerabbit-cleanuparr-flake,icebluerabbit-lazylibrarian
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
       - name: Build via Nix
         run: |
