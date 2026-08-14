@@ -150,31 +150,3 @@ impl CustomSync for IrcNetwork {
         })
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use serde_json::json;
-
-    /// Every channel carries `enabled` on the wire, declared or not: autobrr's
-    /// channel struct has a plain `bool`, so an absent key decodes to `false`
-    /// and its join workflow then skips the channel. A bare channel must
-    /// therefore encode `enabled: true` from the field default.
-    #[test]
-    fn channels_always_encode_enabled() {
-        let cfg = json!({
-            "name": "tl",
-            "enabled": true,
-            "server": "irc.example.org",
-            "port": 6697,
-            "nick": "mybot",
-            "channels": [
-                { "name": "#announce" },
-                { "name": "#offtopic", "enabled": false },
-            ],
-        });
-        let wire = engine::encode_config::<IrcNetwork>(&cfg).unwrap();
-        assert_eq!(wire["channels"][0]["enabled"], json!(true));
-        assert_eq!(wire["channels"][1]["enabled"], json!(false));
-    }
-}

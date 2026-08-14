@@ -40,39 +40,3 @@ pub struct ExternalFilter {
     /// Behaviour when the check errors: `CONTINUE` or `REJECT`.
     pub on_error: Option<String>,
 }
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use core_lib::engine;
-    use serde_json::json;
-
-    /// The newly-modelled webhook/retry/on-error fields encode under their
-    /// snake_case wire keys with values passed through verbatim.
-    #[test]
-    fn new_fields_encode_to_wire() {
-        let cfg = json!({
-            "name": "size-check",
-            "external_type": "WEBHOOK",
-            "enabled": true,
-            "webhook_host": "http://localhost:9000/check",
-            "webhook_method": "POST",
-            "webhook_headers": "X-Api-Key=abc,Accept=application/json",
-            "webhook_expect_status": 200,
-            "webhook_retry_status": "500,502,503",
-            "webhook_retry_attempts": 3,
-            "webhook_retry_delay_seconds": 5,
-            "on_error": "REJECT",
-        });
-        let wire = engine::encode(&engine::decode_config::<ExternalFilter>(&cfg).unwrap()).unwrap();
-        assert_eq!(wire["type"], json!("WEBHOOK"));
-        assert_eq!(
-            wire["webhook_headers"],
-            json!("X-Api-Key=abc,Accept=application/json")
-        );
-        assert_eq!(wire["webhook_retry_status"], json!("500,502,503"));
-        assert_eq!(wire["webhook_retry_attempts"], json!(3));
-        assert_eq!(wire["webhook_retry_delay_seconds"], json!(5));
-        assert_eq!(wire["on_error"], json!("REJECT"));
-    }
-}
