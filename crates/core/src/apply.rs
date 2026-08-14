@@ -23,7 +23,7 @@ use secrecy::SecretString;
 use serde_json::Value;
 
 use crate::plan::{self, Op, Plan, PlanStep};
-use crate::resolver::RefId;
+use crate::resolver::{RefId, RefSource};
 use crate::service::{Auth, Connection, Service, ServiceField};
 use crate::{Endpoint, HttpMethod, SyncKind};
 
@@ -110,8 +110,9 @@ pub type CustomSyncFn =
 ///
 /// The engine hands it: the live `client`; the resolved `desired` configs
 /// (`${ref}` substituted, still snake_case config form — encode via `Self` with
-/// [`crate::engine`]); the `refs` store (register created ids so downstream
-/// `${ref}` resolve); `prune` (the run's `--prune` gate — when set, delete live
+/// [`crate::engine`]); the `refs` store (a hook *may* register ids it learns, but
+/// needn't — for a keyed collection the engine re-lists and backfills afterwards,
+/// see [`custom_step`]); `prune` (the run's `--prune` gate — when set, delete live
 /// items the config no longer declares, mirroring crud); and `execute`. A hook
 /// that has no prunable delete simply ignores `prune`. It returns one [`Change`]
 /// per item (plus one [`Change::removed`] per pruned item); the engine builds
@@ -469,6 +470,25 @@ async fn custom_step<S: Service>(
     // in both plan and apply (a read-only list GET), matching topological order.
     register_refs(client, tn, field, refs).await;
 
+    // …and stand in a `Pending` for anything that registration couldn't see. In
+    // plan mode the hook writes nothing, so a to-be-created item is absent from
+    // the list GET above and a downstream `${ref}` would hard-fail instead of
+    // previewing `-1` — the placeholder `run_ops` already inserts for a crud
+    // `Create`. Unconditional: under `execute` the real ids are registered, so
+    // this is a no-op, and a create that silently didn't land still previews
+    // rather than aborting the rest of the apply.
+    if let Some(key) = (field.key_wire)() {
+        // `desired` is config-shaped (the hook encodes via its own type), so reach
+        // the key through the same encode the crud path plans on — config and wire
+        // spellings of a key differ under a non-snake `case`. Best-effort like the
+        // GET: an item that won't encode simply contributes no placeholder.
+        let wire: Vec<Value> = desired
+            .iter()
+            .filter_map(|d| (field.config_to_wire)(d).ok())
+            .collect();
+        register_pending_ids(refs, tn, &key, &wire);
+    }
+
     let ops = changes.into_iter().map(change_to_op).collect();
     Ok(Some(PlanStep {
         type_name: tn,
@@ -487,6 +507,21 @@ fn register_live_ids(refs: &mut RefStore, tn: &'static str, key: &str, live: &[V
             lv.get("id").and_then(RefId::from_value),
         ) {
             refs.insert(tn, &k, id);
+        }
+    }
+}
+
+/// Register [`RefId::Pending`] for each desired item whose key isn't already in
+/// `refs` — the custom-sync counterpart of the placeholder [`run_ops`] inserts for
+/// a crud `Create`. Never overwrites a live id, so an existing resource keeps its
+/// real one. `wire` is wire-shaped, matching `key`.
+fn register_pending_ids(refs: &mut RefStore, tn: &'static str, key: &str, wire: &[Value]) {
+    for w in wire {
+        let Some(k) = w.get(key).map(plan::key_str) else {
+            continue;
+        };
+        if refs.lookup(tn, &k).is_none() {
+            refs.insert(tn, &k, RefId::Pending);
         }
     }
 }
@@ -718,5 +753,22 @@ mod register_ref_tests {
             &json!({ "Items": [{ "name": "a", "id": 1 }] }),
         );
         assert_eq!(refs.lookup("t", "a"), None);
+    }
+
+    #[test]
+    fn pending_backfills_only_unregistered_keys() {
+        let mut refs = RefStore::default();
+        // "TL" exists on the server; "YU-Scene" is a plan-mode create the custom
+        // hook didn't write, so the list GET can't have registered it.
+        register_live_ids(&mut refs, "indexer", "name", &[json!({"name":"TL","id":7})]);
+        register_pending_ids(
+            &mut refs,
+            "indexer",
+            "name",
+            &[json!({"name":"TL"}), json!({"name":"YU-Scene"}), json!({})],
+        );
+        // The live id survives — a placeholder must never clobber a real one.
+        assert_eq!(refs.lookup("indexer", "TL"), Some(RefId::Int(7)));
+        assert_eq!(refs.lookup("indexer", "YU-Scene"), Some(RefId::Pending));
     }
 }

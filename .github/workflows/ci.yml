@@ -32,7 +32,7 @@ jobs:
         uses: cachix/cachix-action@v17
         with:
           name: icebluerabbit-${{ vars.CACHIX_CACHE }}
-          extraPullNames: icebluerabbit-cleanuparr-flake
+          extraPullNames: icebluerabbit-cleanuparr-flake,icebluerabbit-lazylibrarian
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
           skipPush: ${{ github.actor == 'dependabot[bot]' }}
 

@@ -68,8 +68,11 @@ crates/<svc>/                  # <svc> = <api>-<version>, e.g. crates/sonarr-v3/
     tests/
         spec_conformance.rs    # thin — uses core_testkit::check
         e2e.rs                 # thin — uses core_testkit::{env_pair, instance}
+        codec.rs               # optional — encoding assertions the spec check can't make
         testdata/<r>/config.yaml
 ```
+
+Test placement: anything reachable through the crate's public API belongs in `tests/`. An inline `#[cfg(test)] mod tests` is for private helpers only (a module-local `in_sync`, a wire-normalising `fn`), which an integration test cannot see without making them `pub`.
 
 ## 2. Cargo.toml
 

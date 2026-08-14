@@ -7,10 +7,14 @@
       # Cleanuparr builds .NET + Angular from source; without its cache the
       # cleanuparr-v1 e2e check rebuilds all of it.
       "https://icebluerabbit-cleanuparr-flake.cachix.org"
+      # LazyLibrarian is not in nixpkgs either. Our own cache carries a copy
+      # until the input moves; pulling upstream's keeps the bump itself cheap.
+      "https://icebluerabbit-lazylibrarian.cachix.org"
     ];
     extra-trusted-public-keys = [
       "icebluerabbit-configuratarr.cachix.org-1:dEEK2uZ8exjLoOh01aGi9GfRqnmd/DjrUUmIZmcCiu8="
       "icebluerabbit-cleanuparr-flake.cachix.org-1:K0JIcbUOshVOfIpRhQSCwIl5UH34qxlnB13RDwl/p7s="
+      "icebluerabbit-lazylibrarian.cachix.org-1:AkOQOlRiZScC7nl3UWz+lw3jYWFnOU7Eon+CBvocjME="
     ];
   };
 
