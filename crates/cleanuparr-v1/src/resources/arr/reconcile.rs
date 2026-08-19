@@ -29,7 +29,7 @@
 use std::collections::HashSet;
 use std::sync::Mutex;
 
-use core_lib::{Change, Described, HttpClient, RefId, RefStore, engine, reconcile};
+use core_lib::{Change, Described, HttpClient, IdShape, RefId, RefStore, engine, reconcile};
 use serde_json::Value;
 
 use crate::diff;
@@ -103,7 +103,9 @@ pub async fn reconcile_instances<T: Described>(
             if let Some(name) = w.get("name").and_then(Value::as_str)
                 && !live_names.contains(name)
             {
-                refs.insert(ref_type, name, RefId::Pending);
+                // Both instance types this helper serves use GUID ids, and
+                // neither declares an `#[id]` field.
+                refs.insert(ref_type, name, RefId::Pending(IdShape::Str));
             }
         }
     }

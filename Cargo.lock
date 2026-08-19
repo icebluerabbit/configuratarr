@@ -121,6 +121,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1505bd5d3d116872e7271a6d4e16d81d0c8570876c8de68093a09ac269d8aac0"
 
 [[package]]
+name = "audiobookshelf-v1"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "core-lib",
+ "core-macros",
+ "core-testkit",
+ "jsonschema",
+ "serde-saphyr",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
 name = "autobrr-v1"
 version = "0.1.0"
 dependencies = [
@@ -162,6 +176,20 @@ dependencies = [
  "core-testkit",
  "jsonschema",
  "md-5",
+ "serde-saphyr",
+ "serde_json",
+ "tokio",
+]
+
+[[package]]
+name = "bindery-v1"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "core-lib",
+ "core-macros",
+ "core-testkit",
+ "jsonschema",
  "serde-saphyr",
  "serde_json",
  "tokio",
@@ -329,12 +357,15 @@ name = "config-doc-gen"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "audiobookshelf-v1",
  "autobrr-v1",
  "bazarr-v1",
+ "bindery-v1",
  "clap",
  "cleanuparr-v1",
  "core-lib",
  "jellyfin-v11",
+ "komga-v1",
  "lazylibrarian-v1",
  "lidarr-v1",
  "prowlarr-v1",
@@ -403,11 +434,14 @@ name = "core-config"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "audiobookshelf-v1",
  "autobrr-v1",
  "bazarr-v1",
+ "bindery-v1",
  "cleanuparr-v1",
  "core-lib",
  "jellyfin-v11",
+ "komga-v1",
  "lazylibrarian-v1",
  "lidarr-v1",
  "prowlarr-v1",
@@ -1230,6 +1264,20 @@ dependencies = [
  "num-cmp",
  "num-traits",
  "serde_json",
+]
+
+[[package]]
+name = "komga-v1"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "core-lib",
+ "core-macros",
+ "core-testkit",
+ "jsonschema",
+ "serde-saphyr",
+ "serde_json",
+ "tokio",
 ]
 
 [[package]]

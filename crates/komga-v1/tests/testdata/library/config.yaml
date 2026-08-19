@@ -1,0 +1,30 @@
+name: Comics
+root: /data/comics
+oneshots_directory: Oneshots
+scan_on_startup: true
+scan_interval: EVERY_6H
+scan_cbx: true
+scan_pdf: false
+scan_epub: true
+scan_force_modified_time: false
+scan_directory_exclusions:
+  - "#recycle"
+  - "@eaDir"
+empty_trash_after_scan: true
+import_comic_info_book: true
+import_comic_info_series: true
+import_comic_info_collection: true
+import_comic_info_read_list: true
+import_comic_info_series_append_volume: false
+import_epub_book: true
+import_epub_series: true
+import_mylar_series: false
+import_local_artwork: true
+import_barcode_isbn: false
+repair_extensions: true
+convert_to_cbz: false
+series_cover: FIRST_UNREAD_OR_FIRST
+hash_files: true
+hash_pages: false
+hash_koreader: false
+analyze_dimensions: true

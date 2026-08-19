@@ -1,0 +1,11 @@
+delete_empty_collections: true
+delete_empty_read_lists: false
+kepubify_path: /usr/bin/kepubify
+kobo_port: 8080
+kobo_proxy: true
+remember_me_duration_days: 30
+renew_remember_me_key: false
+server_context_path: /komga
+server_port: 25600
+task_pool_size: 4
+thumbnail_size: LARGE

@@ -1,0 +1,15 @@
+host: smtp.example.com
+port: 587
+secure: false
+reject_unauthorized: true
+user: notifications@example.com
+pass: ${env.ABS_SMTP_PASSWORD}
+test_address: test@example.com
+from_address: audiobookshelf@example.com
+# Not a recommended real config (see the field doc: this data belongs to the
+# ereader_device resource) — included only to exercise the Vec<Json> codec
+# path for conformance coverage.
+ereader_devices:
+  - name: kindle-example
+    email: reader@example.com
+    availabilityOption: adminOrUp

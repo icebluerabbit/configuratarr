@@ -190,7 +190,11 @@ impl CustomSync for DownloadClient {
                             // Preview: no create, so no real GUID yet — the
                             // nested sub-endpoints need one, so skip them and
                             // just record intent (mirrors jellyfin `user`).
-                            refs.insert("download_client", name, RefId::Pending);
+                            refs.insert(
+                                "download_client",
+                                name,
+                                RefId::Pending(engine::id_shape::<Self>()),
+                            );
                             changes.push(Change::created(name));
                             continue;
                         }

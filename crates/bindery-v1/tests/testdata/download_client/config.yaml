@@ -1,0 +1,14 @@
+name: sabnzbd-main
+client_type: sabnzbd
+host: 192.168.1.50
+port: 8080
+api_key: "${env.BINDERY_SABNZBD_API_KEY}"
+use_ssl: false
+url_base: /sabnzbd
+category: books
+category_audiobook: audiobooks
+path_remap: "/downloads:/data/downloads"
+priority: 1
+enabled: true
+username: admin
+password: "${env.BINDERY_SABNZBD_PASSWORD}"

@@ -1,0 +1,5 @@
+name: Prowlarr
+url: http://prowlarr.local:9696
+api_key: "${env.BINDERY_PROWLARR_API_KEY}"
+sync_on_startup: true
+enabled: true

@@ -1,0 +1,13 @@
+name: nzbgeek
+indexer_type: newznab
+url: https://api.nzbgeek.info
+api_key: "${env.BINDERY_NZBGEEK_API_KEY}"
+categories: [7000, 7020, 3030]
+include_parent_categories: false
+priority: 25
+enabled: true
+supports_search: true
+prowlarr_instance_id: "${ref.prowlarr_instance.Prowlarr}"
+prowlarr_indexer_id: 42
+seed_ratio: 1.5
+freeleech_only: false

@@ -1,0 +1,12 @@
+id: authentik
+name: Authentik
+issuer: "https://auth.example.com/application/o/bindery/"
+client_id: bindery-web
+client_secret: "${env.OIDC_CLIENT_SECRET}"
+scopes:
+  - openid
+  - profile
+  - email
+allowed_groups:
+  - bindery-admins
+  - bindery-users

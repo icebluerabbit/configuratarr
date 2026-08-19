@@ -1,0 +1,8 @@
+name: Retail EPUB
+conditions:
+  - type: releaseTitle
+    pattern: retail
+    negate: false
+    required: true
+  - type: indexerFlag
+    pattern: freeleech

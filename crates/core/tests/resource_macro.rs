@@ -514,3 +514,142 @@ fn resource_erased_field_names_roles_and_scalar_values() {
         panic!("expected FieldRef::Int32 for `target`");
     }
 }
+
+// ── Option<Vec<T>> ───────────────────────────────────────────────────────────
+
+/// A list the user may omit entirely. Distinct from `Vec<T>`, which always
+/// encodes — so an undeclared `Vec<T>` sends `[]` and clobbers whatever the
+/// server holds.
+#[resource(sync = crud, list = get("/api/v3/optvec"))]
+struct OptVecResource {
+    #[key]
+    name: String,
+    tags: Option<Vec<String>>,
+    ids: Option<Vec<i64>>,
+    /// The always-encoding counterpart, for contrast.
+    always: Vec<String>,
+}
+
+#[test]
+fn option_vec_classifies_as_optional_of_vec() {
+    let by_name = |n: &str| {
+        OptVecResource::descriptor()
+            .fields
+            .iter()
+            .find(|f| f.name == n)
+            .expect("field exists")
+    };
+
+    assert!(matches!(
+        by_name("tags").kind,
+        FieldKind::Optional(FieldKind::Vec(FieldKind::String)),
+    ));
+    assert!(matches!(
+        by_name("ids").kind,
+        FieldKind::Optional(FieldKind::Vec(FieldKind::Int64)),
+    ));
+    assert!(matches!(
+        by_name("always").kind,
+        FieldKind::Vec(FieldKind::String)
+    ));
+}
+
+/// The reason the shape exists: `None` omits the key, an empty `Vec` doesn't.
+#[test]
+fn none_omits_the_key_but_an_empty_vec_still_encodes() {
+    let omitted = core_lib::engine::encode(&OptVecResource {
+        name: "n".into(),
+        tags: None,
+        ids: None,
+        always: Vec::new(),
+    })
+    .expect("encodes");
+
+    assert!(omitted.get("tags").is_none(), "None must omit the key");
+    assert!(omitted.get("ids").is_none(), "None must omit the key");
+    assert_eq!(
+        omitted.get("always"),
+        Some(&serde_json::json!([])),
+        "a plain Vec always encodes — this is what Option<Vec<_>> exists to avoid"
+    );
+
+    let present = core_lib::engine::encode(&OptVecResource {
+        name: "n".into(),
+        tags: Some(Vec::new()),
+        ids: Some(vec![7, 9]),
+        always: vec!["a".into()],
+    })
+    .expect("encodes");
+
+    assert_eq!(present.get("tags"), Some(&serde_json::json!([])));
+    assert_eq!(present.get("ids"), Some(&serde_json::json!([7, 9])));
+}
+
+#[test]
+fn option_vec_round_trips_through_the_wire_codec() {
+    let wire = serde_json::json!({ "name": "n", "tags": ["x", "y"], "ids": [1], "always": [] });
+    let decoded: OptVecResource = core_lib::engine::decode(&wire).expect("decodes");
+
+    assert_eq!(
+        decoded.tags.as_deref(),
+        Some(["x".to_string(), "y".to_string()].as_slice())
+    );
+    assert_eq!(decoded.ids.as_deref(), Some([1i64].as_slice()));
+    assert_eq!(
+        core_lib::engine::encode(&decoded).expect("re-encodes"),
+        wire
+    );
+}
+
+/// Doc-gen already understood the nested kind; this pins that it keeps
+/// reporting the element type rather than a bare "any".
+#[test]
+fn option_vec_documents_its_element_type_and_is_not_required() {
+    let docs = core_lib::engine::field_docs::<OptVecResource>();
+    let tags = docs.iter().find(|d| d.name == "tags").expect("documented");
+
+    assert_eq!(tags.type_label, "array of string");
+    assert!(!tags.required, "an optional list is never required");
+}
+
+// ── id shape ─────────────────────────────────────────────────────────────────
+
+/// Every *arr: an integer `#[id]`.
+#[resource(sync = crud, list = get("/api/v3/intid"))]
+struct IntIdResource {
+    #[id]
+    id: Option<i32>,
+    #[key]
+    name: String,
+}
+
+/// Jellyfin/Komga/Audiobookshelf: an opaque string `#[id]`.
+#[resource(sync = crud, list = get("/api/v1/strid"))]
+struct StrIdResource {
+    #[id]
+    id: Option<String>,
+    #[key]
+    name: String,
+}
+
+/// No `#[id]` at all — a resource that never models the server's id.
+#[resource(sync = crud, list = get("/api/v1/noid"))]
+struct NoIdResource {
+    #[key]
+    name: String,
+}
+
+/// `id_shape` picks the placeholder type a preview substitutes for a
+/// not-yet-created ref. Getting it wrong doesn't degrade gracefully: an integer
+/// `-1` handed to a `String` FK fails decode and aborts the whole plan.
+#[test]
+fn id_shape_reads_the_id_field() {
+    use core_lib::IdShape;
+    use core_lib::engine::id_shape;
+
+    assert_eq!(id_shape::<IntIdResource>(), IdShape::Int);
+    assert_eq!(id_shape::<StrIdResource>(), IdShape::Str);
+    // No `#[id]` falls back to the historical behaviour, which is right for
+    // every *arr — hence the rule that a string-id resource must declare one.
+    assert_eq!(id_shape::<NoIdResource>(), IdShape::Int);
+}

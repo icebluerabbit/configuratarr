@@ -1,0 +1,6 @@
+usenet_delay: 15
+torrent_delay: 45
+preferred_protocol: usenet
+enable_usenet: true
+enable_torrent: true
+order: 0

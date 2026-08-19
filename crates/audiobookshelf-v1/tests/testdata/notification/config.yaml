@@ -1,0 +1,8 @@
+event_name: onBackupFailed
+library_id: ${ref.library.Audiobooks}
+urls:
+  - "http://192.168.0.3:8000/notify/my-cool-notification"
+title_template: "Backup failed"
+body_template: "{{message}}"
+enabled: true
+notification_type: warning

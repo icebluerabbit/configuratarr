@@ -35,6 +35,9 @@ in
         "autobrr.service"
         "lazylibrarian.service"
         "cleanuparr.service"
+        "komga.service"
+        "bindery.service"
+        "audiobookshelf.service"
       ];
 
       serviceConfig = {

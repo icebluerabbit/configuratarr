@@ -1,0 +1,21 @@
+scanner_find_covers: true
+scanner_cover_provider: audible
+rate_limit_login_requests: 20
+allow_iframe: false
+backup_schedule: "0 1 * * *"
+backups_to_keep: 4
+max_backup_size: 2.5
+home_bookshelf_view: 0
+date_format: yyyy-MM-dd
+language: en-us
+allowed_origins:
+  - https://audiobooks.example.com
+log_level: 2
+auth_active_auth_methods:
+  - local
+  - openid
+auth_open_id_issuer_url: https://auth.example.com
+auth_open_id_client_id: audiobookshelf
+auth_open_id_client_secret: ${env.ABS_OIDC_CLIENT_SECRET}
+auth_open_id_mobile_redirect_uris:
+  - audiobookshelf://oauth

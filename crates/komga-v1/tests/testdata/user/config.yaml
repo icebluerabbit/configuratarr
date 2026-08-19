@@ -1,0 +1,16 @@
+email: reader@example.org
+password: "${env.KOMGA_USER_PASSWORD}"
+roles:
+  - PAGE_STREAMING
+  - FILE_DOWNLOAD
+labels_allow:
+  - kids
+labels_exclude:
+  - mature
+age_restriction:
+  age: 16
+  restriction: ALLOW_ONLY
+shared_libraries:
+  all: false
+  library_ids:
+    - "${ref.library.Comics}"

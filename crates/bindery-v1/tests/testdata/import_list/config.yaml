@@ -1,0 +1,12 @@
+name: Hardcover Want to Read
+list_type: hardcover
+url: want-to-read
+api_key: "${env.HARDCOVER_API_KEY}"
+account: alice
+root_folder_id: "${ref.root_folder./books}"
+quality_profile_id: "${ref.quality_profile.Standard}"
+owner_user_id: "${ref.user.alice}"
+media_type: ebook
+monitor_new: true
+auto_add: true
+enabled: true

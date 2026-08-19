@@ -58,6 +58,11 @@ pub struct ServiceField<S: 'static> {
     /// Wire name of the natural key, to match desired vs live. `None` for singletons.
     pub key_wire: fn() -> Option<String>,
 
+    /// Whether this resource's server ids are ints or strings, so a preview
+    /// substitutes a placeholder of the right JSON type for a not-yet-created
+    /// ref. Read off the `#[id]` field — see [`crate::engine::id_shape`].
+    pub id_shape: fn() -> crate::resolver::IdShape,
+
     /// One resource's config `Value` (`${ref}` resolved) → wire `Value`
     /// (`decode_config` then `encode`).
     pub config_to_wire: fn(&serde_json::Value) -> anyhow::Result<serde_json::Value>,

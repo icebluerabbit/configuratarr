@@ -32,6 +32,13 @@ pub enum Kind {
     VecInt64,
     VecString,
 
+    /// `Option<Vec<T>>` for a scalar `T` — a list the user may omit, which
+    /// a plain `Vec<T>` can't express (it always encodes, as `[]`).
+    OptVecBool,
+    OptVecInt32,
+    OptVecInt64,
+    OptVecString,
+
     /// `SecretValue` — structurally a string, redacted in memory.
     Secret,
     /// `Option<SecretValue>`.
@@ -98,6 +105,19 @@ impl Kind {
             Self::VecInt64 => quote!(&::core_lib::FieldKind::Vec(&::core_lib::FieldKind::Int64)),
             Self::VecString => quote!(&::core_lib::FieldKind::Vec(&::core_lib::FieldKind::String)),
 
+            Self::OptVecBool => quote!(&::core_lib::FieldKind::Optional(
+                &::core_lib::FieldKind::Vec(&::core_lib::FieldKind::Bool)
+            )),
+            Self::OptVecInt32 => quote!(&::core_lib::FieldKind::Optional(
+                &::core_lib::FieldKind::Vec(&::core_lib::FieldKind::Int32)
+            )),
+            Self::OptVecInt64 => quote!(&::core_lib::FieldKind::Optional(
+                &::core_lib::FieldKind::Vec(&::core_lib::FieldKind::Int64)
+            )),
+            Self::OptVecString => quote!(&::core_lib::FieldKind::Optional(
+                &::core_lib::FieldKind::Vec(&::core_lib::FieldKind::String)
+            )),
+
             // Secrets are structurally strings; the `secret` flag carries the rest.
             Self::Secret => quote!(&::core_lib::FieldKind::String),
             Self::OptSecret => quote!(&::core_lib::FieldKind::Optional(
@@ -142,6 +162,11 @@ impl Kind {
             Self::VecInt64 => quote!(::core_lib::FieldRef::VecInt64(&t.#field)),
             Self::VecString => quote!(::core_lib::FieldRef::VecString(&t.#field)),
 
+            Self::OptVecBool => quote!(::core_lib::FieldRef::OptVecBool(&t.#field)),
+            Self::OptVecInt32 => quote!(::core_lib::FieldRef::OptVecInt32(&t.#field)),
+            Self::OptVecInt64 => quote!(::core_lib::FieldRef::OptVecInt64(&t.#field)),
+            Self::OptVecString => quote!(::core_lib::FieldRef::OptVecString(&t.#field)),
+
             Self::Secret => quote!(::core_lib::FieldRef::Secret(&t.#field)),
             Self::OptSecret => quote!(::core_lib::FieldRef::OptSecret(&t.#field)),
 
@@ -184,7 +209,11 @@ impl Kind {
             | Self::OptString
             | Self::OptSecret
             | Self::OptNested { .. }
-            | Self::OptJson => {
+            | Self::OptJson
+            | Self::OptVecBool
+            | Self::OptVecInt32
+            | Self::OptVecInt64
+            | Self::OptVecString => {
                 quote!(::std::option::Option::None)
             }
 
@@ -270,6 +299,27 @@ impl Kind {
             Self::VecString => quote!(match v {
                 ::core_lib::FieldValue::VecString(x) => { t.#field = x; Ok(()) }
                 other => Err(::anyhow::anyhow!("expected VecString, got {other:?}")),
+            }),
+
+            Self::OptVecBool => quote!(match v {
+                ::core_lib::FieldValue::OptVecBool(x) => { t.#field = x; Ok(()) }
+                ::core_lib::FieldValue::Null => { t.#field = None; Ok(()) }
+                other => Err(::anyhow::anyhow!("expected OptVecBool, got {other:?}")),
+            }),
+            Self::OptVecInt32 => quote!(match v {
+                ::core_lib::FieldValue::OptVecInt32(x) => { t.#field = x; Ok(()) }
+                ::core_lib::FieldValue::Null => { t.#field = None; Ok(()) }
+                other => Err(::anyhow::anyhow!("expected OptVecInt32, got {other:?}")),
+            }),
+            Self::OptVecInt64 => quote!(match v {
+                ::core_lib::FieldValue::OptVecInt64(x) => { t.#field = x; Ok(()) }
+                ::core_lib::FieldValue::Null => { t.#field = None; Ok(()) }
+                other => Err(::anyhow::anyhow!("expected OptVecInt64, got {other:?}")),
+            }),
+            Self::OptVecString => quote!(match v {
+                ::core_lib::FieldValue::OptVecString(x) => { t.#field = x; Ok(()) }
+                ::core_lib::FieldValue::Null => { t.#field = None; Ok(()) }
+                other => Err(::anyhow::anyhow!("expected OptVecString, got {other:?}")),
             }),
 
             // A nested resource decodes from the JSON object the codec hands us
@@ -419,6 +469,21 @@ fn classify_option_inner(inner: &Type) -> Kind {
         "String" => Kind::OptString,
         "SecretValue" => Kind::OptSecret,
         "Json" | "Value" => Kind::OptJson,
+        // `Option<Vec<T>>` — recurse so the element type picks the carrier,
+        // exactly as a bare `Vec<T>` would.
+        "Vec" => match generic_arg(path.path.segments.last().unwrap()).map(classify_vec_inner) {
+            Some(Kind::VecBool) => Kind::OptVecBool,
+            Some(Kind::VecInt32) => Kind::OptVecInt32,
+            Some(Kind::VecInt64) => Kind::OptVecInt64,
+            Some(Kind::VecString) => Kind::OptVecString,
+            // `Option<Vec<Json>>` / `Option<Vec<Nested>>` have no carrier:
+            // `Option<Json>` already covers an opaque array, and no resource
+            // has needed the nested form. Falls through to the nested error
+            // rather than silently mis-encoding.
+            _ => Kind::OptNested {
+                type_name: snake_case(&ident),
+            },
+        },
         _ => Kind::OptNested {
             type_name: snake_case(&ident),
         },

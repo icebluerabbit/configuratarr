@@ -35,6 +35,9 @@ macro_rules! service_registry {
             AutobrrV1 => "autobrr-v1" : autobrr_v1::AutobrrV1 = "Autobrr v1",
             LazyLibrarianV1 => "lazylibrarian-v1" : lazylibrarian_v1::LazyLibrarianV1 = "LazyLibrarian v1",
             CleanuparrV1 => "cleanuparr-v1" : cleanuparr_v1::CleanuparrV1 = "Cleanuparr v1",
+            KomgaV1 => "komga-v1" : komga_v1::KomgaV1 = "Komga v1",
+            BinderyV1 => "bindery-v1" : bindery_v1::BinderyV1 = "Bindery v1",
+            AudiobookshelfV1 => "audiobookshelf-v1" : audiobookshelf_v1::AudiobookshelfV1 = "Audiobookshelf v1",
         }
     };
 }

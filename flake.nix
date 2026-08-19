@@ -173,7 +173,10 @@
                 cleanuparr = inputs'.cleanuparr-flake.packages.cleanuparr;
                 cleanuparrModule = inputs.cleanuparr-flake.nixosModules.cleanuparr;
               }
-            );
+            )
+            // mkServiceChecks "komga-v1" (import ./nix/e2e/komga-v1.nix { inherit pkgs; })
+            // mkServiceChecks "bindery-v1" (import ./nix/e2e/bindery-v1.nix { inherit pkgs; })
+            // mkServiceChecks "audiobookshelf-v1" (import ./nix/e2e/audiobookshelf-v1.nix { inherit pkgs; });
 
             formatter = pkgs.nixfmt-tree;
 
