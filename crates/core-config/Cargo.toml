@@ -15,12 +15,15 @@ bazarr-v1 = { path = "../bazarr-v1", optional = true }
 autobrr-v1 = { path = "../autobrr-v1", optional = true }
 lazylibrarian-v1 = { path = "../lazylibrarian-v1", optional = true }
 cleanuparr-v1 = { path = "../cleanuparr-v1", optional = true }
+komga-v1 = { path = "../komga-v1", optional = true }
+bindery-v1 = { path = "../bindery-v1", optional = true }
+audiobookshelf-v1 = { path = "../audiobookshelf-v1", optional = true }
 anyhow.workspace       = true
 serde_json.workspace   = true
 serde-saphyr.workspace = true
 
 [features]
-default     = ["radarr-v3", "sonarr-v3", "prowlarr-v1", "lidarr-v1", "jellyfin-v11", "bazarr-v1", "autobrr-v1", "lazylibrarian-v1", "cleanuparr-v1"]
+default     = ["radarr-v3", "sonarr-v3", "prowlarr-v1", "lidarr-v1", "jellyfin-v11", "bazarr-v1", "autobrr-v1", "lazylibrarian-v1", "cleanuparr-v1", "komga-v1", "bindery-v1", "audiobookshelf-v1"]
 radarr-v3   = ["dep:radarr-v3"]
 sonarr-v3   = ["dep:sonarr-v3"]
 prowlarr-v1 = ["dep:prowlarr-v1"]
@@ -30,3 +33,6 @@ bazarr-v1   = ["dep:bazarr-v1"]
 autobrr-v1  = ["dep:autobrr-v1"]
 lazylibrarian-v1 = ["dep:lazylibrarian-v1"]
 cleanuparr-v1 = ["dep:cleanuparr-v1"]
+komga-v1 = ["dep:komga-v1"]
+bindery-v1 = ["dep:bindery-v1"]
+audiobookshelf-v1 = ["dep:audiobookshelf-v1"]

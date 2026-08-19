@@ -1,0 +1,8 @@
+base_url: "https://audiobookshelf.example.com"
+label: Audiobookshelf
+enabled: true
+library_ids:
+  - lib_main
+  - lib_archive
+path_remap: "/mnt/media:/audiobooks"
+api_key: "${env.ABS_API_KEY}"

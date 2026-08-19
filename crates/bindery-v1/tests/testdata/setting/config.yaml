@@ -1,0 +1,44 @@
+# hardcover.*
+hardcover_api_token: "hc_live_test_token"
+hardcover_enhanced_series_enabled: true
+hardcover_sync_interval: "24h"
+
+# abs.* (Audiobookshelf)
+abs_enabled: true
+abs_base_url: "https://abs.example.internal"
+
+# calibre.*
+calibre_library_path: "/data/calibre-library"
+calibre_binary_path: "/usr/bin/calibredb"
+calibre_mode: "calibredb"
+calibre_push_path_remap: "/mnt/host:/mnt/container"
+calibre_plugin_url: "https://calibre.example.internal/plugin"
+calibre_plugin_api_key: "cal_plugin_test_key"
+
+# cwa.*
+cwa_ingest_path: "/data/cwa-ingest"
+
+# import.*
+import_mode: "hardlink"
+import_drop_folder: "/data/drop"
+import_drop_layout: "templated"
+import_drop_link_mode: "hardlink"
+import_drop_pair_gating: true
+import_drop_pair_gating_timeout_hours: 6
+
+# default.*
+default_media_type: "both"
+default_media_type_strict: false
+
+# author.*
+author_default_monitor_mode: "future"
+author_default_monitor_latest_count: 3
+
+# library.*
+library_default_root_folder_id: "${ref.root_folder./library}"
+
+# metadata.*
+metadata_primary_provider: "openlibrary"
+
+# search.*
+search_interval: "6h"

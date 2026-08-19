@@ -63,15 +63,34 @@ impl StaticEnv for SystemEnv {
 ///
 /// [`Pending`](RefId::Pending) is not a server id: it marks a create that hasn't
 /// happened yet (a `plan` preview, or an `apply` create whose response carried no
-/// id). It substitutes into `${ref.*}` as the [`PENDING`](Self::PENDING)
-/// placeholder so preview encoding still succeeds; a real `apply` never leaves a
+/// id). It substitutes into `${ref.*}` as the placeholder matching its
+/// [`IdShape`] so preview encoding still succeeds; a real `apply` never leaves a
 /// ref `Pending` once the dependency has actually been created.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum RefId {
     Int(i64),
     Str(String),
-    /// A not-yet-created id (preview, or a create with no id in its response).
-    Pending,
+    /// A not-yet-created id (preview, or a create with no id in its response),
+    /// carrying the shape the real id will have so the placeholder still
+    /// decodes into the field that consumes it.
+    Pending(IdShape),
+}
+
+/// Whether a resource's server ids are integers or strings.
+///
+/// A [`Pending`](RefId::Pending) has no value to substitute, but it still has
+/// to substitute *something* of the right JSON type: a `String` FK given an
+/// integer placeholder fails decode with `expected string, got -1`, which
+/// aborts the whole plan. Derived from the resource's `#[id]` field by
+/// [`crate::engine::id_shape`].
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
+pub enum IdShape {
+    /// Integer ids — every *arr, and the default when a resource declares no
+    /// `#[id]` field.
+    #[default]
+    Int,
+    /// String/GUID ids (Jellyfin, Komga, Audiobookshelf, Cleanuparr).
+    Str,
 }
 
 impl RefId {
@@ -79,6 +98,11 @@ impl RefId {
     /// preview — the historical `-1` placeholder, kept in one place so no call
     /// site has to spell the sentinel.
     pub const PENDING: i64 = -1;
+
+    /// The string stand-in, for a resource whose ids are strings. Spelled the
+    /// same as [`PENDING`](Self::PENDING) so a plan reads identically either
+    /// way; it is a placeholder, never a value any server would return.
+    pub const PENDING_STR: &'static str = "-1";
 
     /// Read an id out of a live/create response value (`Number` or `String`);
     /// `None` for anything else (or a null/absent field). Never yields
@@ -93,12 +117,15 @@ impl RefId {
 
     /// The id as the JSON value substituted into a `${ref.*}` position, keeping
     /// its native wire type. [`Pending`](RefId::Pending) renders as the
-    /// [`PENDING`](Self::PENDING) placeholder.
+    /// placeholder matching its [`IdShape`].
     pub fn to_value(&self) -> serde_json::Value {
         match self {
             RefId::Int(i) => serde_json::Value::from(*i),
             RefId::Str(s) => serde_json::Value::String(s.clone()),
-            RefId::Pending => serde_json::Value::from(Self::PENDING),
+            RefId::Pending(IdShape::Int) => serde_json::Value::from(Self::PENDING),
+            RefId::Pending(IdShape::Str) => {
+                serde_json::Value::String(Self::PENDING_STR.to_string())
+            }
         }
     }
 }

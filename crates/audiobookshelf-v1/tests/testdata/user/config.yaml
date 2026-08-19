@@ -1,0 +1,19 @@
+username: alice
+email: alice@example.com
+user_type: admin
+password: ${env.ABS_ALICE_PASSWORD}
+is_active: true
+permissions:
+  download: true
+  update: true
+  delete: false
+  upload: true
+  create_ereader: true
+  access_all_libraries: false
+  access_all_tags: true
+  access_explicit_content: true
+  selected_tags_not_accessible: false
+  libraries_accessible:
+    - ${ref.library.audiobooks}
+  item_tags_selected:
+    - explicit

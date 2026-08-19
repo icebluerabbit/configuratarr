@@ -1,0 +1,8 @@
+name: Standard
+upgrade_allowed: true
+cutoff: epub
+items:
+  - quality: epub
+    allowed: true
+  - quality: mobi
+    allowed: false

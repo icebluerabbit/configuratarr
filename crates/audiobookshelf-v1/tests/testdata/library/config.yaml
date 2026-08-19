@@ -1,0 +1,17 @@
+name: Audiobooks
+folders:
+  - full_path: /audiobooks
+  - full_path: /more-audiobooks
+display_order: 1
+icon: audiobookshelf
+media_type: book
+provider: audible
+settings:
+  audiobooks_only: true
+  skip_matching_media_with_isbn: true
+  hide_single_book_series: true
+  metadata_precedence:
+    - folderStructure
+    - audioMetatags
+    - nfoFile
+  mark_as_finished_time_remaining: 15

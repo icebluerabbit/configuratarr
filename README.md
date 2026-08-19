@@ -24,6 +24,9 @@ Reads a desired-state YAML file, diffs it against each app's live REST API, and 
 | Autobrr | v1 | `autobrr-v1` | ✅ Supported |
 | LazyLibrarian | v1 | `lazylibrarian-v1` | ✅ Supported |
 | Cleanuparr | v1 | `cleanuparr-v1` | ✅ Supported |
+| Komga | v1 | `komga-v1` | ✅ Supported |
+| Bindery | v1 | `bindery-v1` | ✅ Supported |
+| Audiobookshelf | — | `audiobookshelf-v1` | ✅ Supported |
 | Readarr | — | — | 🚧 Planned |
 
 More of the ecosystem (Jellyseerr, …) is on the radar. The engine is service-agnostic — adding one is filling in a template, not changing the core. See [`docs/contributors.md`](docs/contributors.md).

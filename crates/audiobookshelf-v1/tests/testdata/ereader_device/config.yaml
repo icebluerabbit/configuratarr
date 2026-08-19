@@ -1,0 +1,6 @@
+name: kindle-alice
+email: alice-kindle@example.com
+availability_option: specificUsers
+users:
+  - ${ref.user.alice}
+  - ${ref.user.bob}

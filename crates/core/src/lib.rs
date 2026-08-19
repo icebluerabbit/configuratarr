@@ -36,6 +36,6 @@ pub use plan::{Op, PlanStep};
 pub type Json = serde_json::Value;
 pub use field::{FieldKind, FieldRef, FieldRole, FieldValue};
 pub use refs::RefExpr;
-pub use resolver::{RefId, RefSource, StaticEnv, SystemEnv};
+pub use resolver::{IdShape, RefId, RefSource, StaticEnv, SystemEnv};
 pub use secret::SecretValue;
 pub use service::{Auth, Connection, Service, ServiceDescriptor, ServiceField};

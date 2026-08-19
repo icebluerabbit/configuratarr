@@ -1,0 +1,5 @@
+enabled: true
+base_url: "https://grimmory.example.com"
+api_key: "${env.GRIMMORY_API_KEY}"
+username: bindery
+password: "${env.GRIMMORY_PASSWORD}"

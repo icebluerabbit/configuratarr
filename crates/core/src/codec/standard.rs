@@ -119,6 +119,29 @@ pub(crate) fn field_to_json(r: &FieldRef<'_>) -> anyhow::Result<Option<Value>> {
         }
         FieldRef::VecString(s) => Value::Array(s.iter().cloned().map(Value::String).collect()),
 
+        // `None` returns `Ok(None)` — omit the key, the whole point of the
+        // optional-vec shapes.
+        FieldRef::OptVecBool(o) => {
+            return Ok((**o)
+                .as_ref()
+                .map(|v| Value::Array(v.iter().map(|b| Value::Bool(*b)).collect())));
+        }
+        FieldRef::OptVecInt32(o) => {
+            return Ok((**o)
+                .as_ref()
+                .map(|v| Value::Array(v.iter().map(|i| Value::Number((*i).into())).collect())));
+        }
+        FieldRef::OptVecInt64(o) => {
+            return Ok((**o)
+                .as_ref()
+                .map(|v| Value::Array(v.iter().map(|i| Value::Number((*i).into())).collect())));
+        }
+        FieldRef::OptVecString(o) => {
+            return Ok((**o)
+                .as_ref()
+                .map(|v| Value::Array(v.iter().cloned().map(Value::String).collect())));
+        }
+
         FieldRef::Secret(sv) => Value::String(sv.expose().to_string()),
         FieldRef::OptSecret(o) => {
             return Ok((**o)
@@ -305,6 +328,17 @@ pub(crate) fn json_to_field_value(
             K::Json => V::Json(jv.clone()),
             // `Option<Nested>` — the `set` closure wraps the decoded value in `Some`.
             K::Nested { .. } => V::Nested(jv.clone()),
+            // `Option<Vec<T>>` — decode the list through the `K::Vec` arm
+            // below, then wrap. Recursing rather than repeating the element
+            // coercion keeps one implementation (and one error message) per
+            // element type.
+            K::Vec(_) => match json_to_field_value(inner, secret, jv)? {
+                V::VecBool(v) => V::OptVecBool(Some(v)),
+                V::VecInt32(v) => V::OptVecInt32(Some(v)),
+                V::VecInt64(v) => V::OptVecInt64(Some(v)),
+                V::VecString(v) => V::OptVecString(Some(v)),
+                other => anyhow::bail!("optional decode unsupported for a vec of {other:?}"),
+            },
             other => anyhow::bail!("optional decode unsupported for {other:?}"),
         },
 

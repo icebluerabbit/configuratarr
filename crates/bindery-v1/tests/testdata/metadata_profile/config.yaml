@@ -1,0 +1,8 @@
+name: Fiction
+min_popularity: 10
+min_pages: 50
+skip_missing_date: true
+skip_missing_isbn: true
+skip_part_books: false
+allowed_languages: eng
+unknown_language_behavior: fail

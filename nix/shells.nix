@@ -112,4 +112,22 @@ in
     inherit cleanuparr;
     e2eShell = e2e;
   };
+
+  e2e-komga = import ./e2e-shells/komga-v1.nix {
+    inherit pkgs;
+    inherit common;
+    e2eShell = e2e;
+  };
+
+  e2e-bindery = import ./e2e-shells/bindery-v1.nix {
+    inherit pkgs;
+    inherit common;
+    e2eShell = e2e;
+  };
+
+  e2e-audiobookshelf = import ./e2e-shells/audiobookshelf-v1.nix {
+    inherit pkgs;
+    inherit common;
+    e2eShell = e2e;
+  };
 }

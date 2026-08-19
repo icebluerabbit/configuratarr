@@ -68,6 +68,20 @@ pub fn key_wire_name<T: Described>() -> Option<String> {
     find_key(T::empty().descriptor_erased())
 }
 
+/// Whether this resource's server ids are integers or strings, read off its
+/// `#[id]` field (`FieldRole::Id`) and descending `#[flatten]` envelopes the
+/// same way [`key_wire_name`] does.
+///
+/// Only the executor needs this, and only to pick the right
+/// [`crate::RefId::Pending`] placeholder for a preview. A resource with no
+/// `#[id]` field yields [`IdShape::Int`] — the historical behaviour, and
+/// correct for every *arr. **A string-id resource must therefore declare
+/// `#[id]`**, or a `plan` that creates it will substitute an integer into a
+/// `String` FK and abort.
+pub fn id_shape<T: Described>() -> crate::resolver::IdShape {
+    find_id_shape(T::empty().descriptor_erased()).unwrap_or_default()
+}
+
 /// Every resource type this resource references (`#[reference(t)]`), descending
 /// through nested/`#[flatten]` structs — so a ref on a flattened envelope (e.g.
 /// `Provider.tags`) is still seen. Drives apply ordering.
@@ -337,6 +351,30 @@ fn find_key(d: crate::described::ResourceDescriptorErased<'_>) -> Option<String>
             && let Some(k) = find_key(n.descriptor_erased())
         {
             return Some(k);
+        }
+    }
+    None
+}
+
+/// The `#[id]` field's shape, or `None` when the resource declares none.
+/// Mirrors [`find_key`]'s walk.
+fn find_id_shape(
+    d: crate::described::ResourceDescriptorErased<'_>,
+) -> Option<crate::resolver::IdShape> {
+    use crate::field::{FieldKind as K, FieldRef, FieldRole};
+    use crate::resolver::IdShape;
+    for f in d.fields.iter {
+        if f.role == FieldRole::Id {
+            return Some(match f.kind {
+                K::String | K::Optional(K::String) => IdShape::Str,
+                _ => IdShape::Int,
+            });
+        }
+        if f.flatten
+            && let FieldRef::Nested(n) = f.value
+            && let Some(s) = find_id_shape(n.descriptor_erased())
+        {
+            return Some(s);
         }
     }
     None

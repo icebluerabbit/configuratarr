@@ -12,7 +12,9 @@
 //! the bootstrap admin must survive.
 
 use core_lib::merge::merge;
-use core_lib::{Change, CustomSync, CustomSyncFuture, HttpClient, RefId, RefStore, SecretValue};
+use core_lib::{
+    Change, CustomSync, CustomSyncFuture, HttpClient, IdShape, RefId, RefStore, SecretValue,
+};
 use core_macros::resource;
 use serde_json::{Map, Value, json};
 
@@ -90,7 +92,11 @@ impl CustomSync for User {
                     None => {
                         if !execute {
                             // Preview: no create, so no real id — record intent.
-                            refs.insert("user", name, RefId::Pending);
+                            // Jellyfin ids are GUIDs, so the preview
+                            // placeholder has to be the string one — this
+                            // resource carries no `#[id]` field for
+                            // `engine::id_shape` to read.
+                            refs.insert("user", name, RefId::Pending(IdShape::Str));
                             changes.push(Change::created(name));
                             continue;
                         }

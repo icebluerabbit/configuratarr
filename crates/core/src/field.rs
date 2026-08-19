@@ -66,6 +66,16 @@ pub enum FieldRef<'a> {
     VecInt64(&'a [i64]),
     VecString(&'a [String]),
 
+    /// `Option<Vec<T>>` — a list the user may omit entirely. Distinct from
+    /// `Vec<T>`, which always encodes: a `None` here omits the wire key, so
+    /// "not declared" doesn't clobber a server-owned list with `[]`. No
+    /// `Json`/nested counterparts — `Option<Json>` already covers an opaque
+    /// array, and no resource has needed `Option<Vec<Nested>>`.
+    OptVecBool(&'a Option<Vec<bool>>),
+    OptVecInt32(&'a Option<Vec<i32>>),
+    OptVecInt64(&'a Option<Vec<i64>>),
+    OptVecString(&'a Option<Vec<String>>),
+
     /// Credential value, exposed only at the encode/HTTP-send boundary.
     Secret(&'a SecretValue),
 
@@ -111,6 +121,12 @@ pub enum FieldValue {
     VecInt32(Vec<i32>),
     VecInt64(Vec<i64>),
     VecString(Vec<String>),
+
+    /// `Option<Vec<T>>` — see [`FieldRef::OptVecString`].
+    OptVecBool(Option<Vec<bool>>),
+    OptVecInt32(Option<Vec<i32>>),
+    OptVecInt64(Option<Vec<i64>>),
+    OptVecString(Option<Vec<String>>),
 
     /// Resolved credential string; the `set` closure wraps it in a [`SecretValue`].
     Secret(String),

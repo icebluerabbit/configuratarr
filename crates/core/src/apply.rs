@@ -23,7 +23,7 @@ use secrecy::SecretString;
 use serde_json::Value;
 
 use crate::plan::{self, Op, Plan, PlanStep};
-use crate::resolver::{RefId, RefSource};
+use crate::resolver::{IdShape, RefId, RefSource};
 use crate::service::{Auth, Connection, Service, ServiceField};
 use crate::{Endpoint, HttpMethod, SyncKind};
 
@@ -408,7 +408,7 @@ async fn collection_step<S: Service>(
 
     let ops = plan::plan_collection(&live, &desired, &key, &eps, opts.prune)
         .with_context(|| format!("planning collection `{tn}`"))?;
-    run_ops(client, tn, &ops, refs, execute).await?;
+    run_ops(client, tn, &ops, refs, (field.id_shape)(), execute).await?;
     Ok(Some(PlanStep {
         type_name: tn,
         ops,
@@ -486,7 +486,7 @@ async fn custom_step<S: Service>(
             .iter()
             .filter_map(|d| (field.config_to_wire)(d).ok())
             .collect();
-        register_pending_ids(refs, tn, &key, &wire);
+        register_pending_ids(refs, tn, &key, (field.id_shape)(), &wire);
     }
 
     let ops = changes.into_iter().map(change_to_op).collect();
@@ -515,13 +515,19 @@ fn register_live_ids(refs: &mut RefStore, tn: &'static str, key: &str, live: &[V
 /// `refs` — the custom-sync counterpart of the placeholder [`run_ops`] inserts for
 /// a crud `Create`. Never overwrites a live id, so an existing resource keeps its
 /// real one. `wire` is wire-shaped, matching `key`.
-fn register_pending_ids(refs: &mut RefStore, tn: &'static str, key: &str, wire: &[Value]) {
+fn register_pending_ids(
+    refs: &mut RefStore,
+    tn: &'static str,
+    key: &str,
+    id_shape: IdShape,
+    wire: &[Value],
+) {
     for w in wire {
         let Some(k) = w.get(key).map(plan::key_str) else {
             continue;
         };
         if refs.lookup(tn, &k).is_none() {
-            refs.insert(tn, &k, RefId::Pending);
+            refs.insert(tn, &k, RefId::Pending(id_shape));
         }
     }
 }
@@ -626,7 +632,7 @@ async fn singleton_step<S: Service>(
 
     let ops = plan::plan_singleton(&live, &desired, &eps)
         .with_context(|| format!("planning singleton `{tn}`"))?;
-    run_ops(client, tn, &ops, refs, execute).await?;
+    run_ops(client, tn, &ops, refs, (field.id_shape)(), execute).await?;
     Ok(Some(PlanStep {
         type_name: tn,
         ops,
@@ -644,6 +650,7 @@ async fn run_ops(
     tn: &'static str,
     ops: &[Op],
     refs: &mut RefStore,
+    id_shape: IdShape,
     execute: bool,
 ) -> anyhow::Result<()> {
     for op in ops {
@@ -657,10 +664,10 @@ async fn run_ops(
                     let resp = send(client, endpoint.method, endpoint.path, Some(body)).await?;
                     resp.get("id")
                         .and_then(RefId::from_value)
-                        .unwrap_or(RefId::Pending)
+                        .unwrap_or(RefId::Pending(id_shape))
                 } else {
                     // Preview: the id is server-assigned, so it stays pending.
-                    RefId::Pending
+                    RefId::Pending(id_shape)
                 };
                 refs.insert(tn, key, id);
             }
@@ -709,7 +716,7 @@ async fn send(
 #[cfg(test)]
 mod register_ref_tests {
     use super::*;
-    use crate::resolver::{RefId, RefSource};
+    use crate::resolver::{IdShape, RefId, RefSource};
     use serde_json::json;
 
     #[test]
@@ -765,10 +772,35 @@ mod register_ref_tests {
             &mut refs,
             "indexer",
             "name",
+            IdShape::Int,
             &[json!({"name":"TL"}), json!({"name":"YU-Scene"}), json!({})],
         );
         // The live id survives — a placeholder must never clobber a real one.
         assert_eq!(refs.lookup("indexer", "TL"), Some(RefId::Int(7)));
-        assert_eq!(refs.lookup("indexer", "YU-Scene"), Some(RefId::Pending));
+        assert_eq!(
+            refs.lookup("indexer", "YU-Scene"),
+            Some(RefId::Pending(IdShape::Int))
+        );
+    }
+
+    /// A string-id resource's placeholder has to substitute as a *string*.
+    /// Handing a `Vec<String>` FK the integer `-1` fails decode and aborts the
+    /// whole plan — which is what a first `plan` against an empty Komga or
+    /// Audiobookshelf used to do.
+    #[test]
+    fn pending_substitutes_a_placeholder_matching_the_id_shape() {
+        let mut refs = RefStore::default();
+        register_pending_ids(
+            &mut refs,
+            "library",
+            "name",
+            IdShape::Str,
+            &[json!({"name":"Comics"})],
+        );
+
+        let id = refs.lookup("library", "Comics").expect("registered");
+        assert_eq!(id, RefId::Pending(IdShape::Str));
+        assert_eq!(id.to_value(), json!("-1"));
+        assert_eq!(RefId::Pending(IdShape::Int).to_value(), json!(-1));
     }
 }

@@ -141,6 +141,7 @@ pub fn expand(args: TokenStream, input: TokenStream) -> darling::Result<TokenStr
                 ref_targets: || ::core_lib::engine::reference_targets::<#inner>(),
                 endpoints: || <#inner as ::core_lib::Described>::descriptor().endpoints,
                 key_wire: || ::core_lib::engine::key_wire_name::<#inner>(),
+                id_shape: || ::core_lib::engine::id_shape::<#inner>(),
                 config_to_wire: |v| ::core_lib::engine::encode(
                     &::core_lib::engine::decode_config::<#inner>(v)?
                 ),
