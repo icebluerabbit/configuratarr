@@ -96,19 +96,21 @@ pkgs.testers.nixosTest {
     ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("book-api-mock.service")
     machine.wait_for_unit("lazylibrarian.service")
-    machine.wait_for_open_port(5299, timeout=180)
+    machine.wait_for_open_port(5299, timeout=timedelta(seconds=180))
     machine.wait_until_succeeds(
       "curl -sf 'http://localhost:5299/api?cmd=getVersion&apikey=${apiKey}'",
-      timeout=120,
+      timeout=timedelta(seconds=120),
     )
     # Let LazyLibrarian's first-run self-restart settle, then confirm it is stably
     # up before running the suite (so a request doesn't hit it mid-restart).
-    machine.sleep(20)
+    machine.sleep(duration=timedelta(seconds=20))
     machine.wait_until_succeeds(
       "curl -sf 'http://localhost:5299/api?cmd=getVersion&apikey=${apiKey}'",
-      timeout=120,
+      timeout=timedelta(seconds=120),
     )
 
     machine.succeed(

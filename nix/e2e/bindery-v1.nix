@@ -23,18 +23,23 @@ pkgs.testers.nixosTest {
     ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("bindery.service")
-    machine.wait_for_open_port(8787, timeout=120)
+    machine.wait_for_open_port(8787, timeout=timedelta(seconds=120))
 
     # /api/v1/health is unauthenticated and answers once the router is up.
-    machine.wait_until_succeeds("curl -sf http://localhost:8787/api/v1/health", timeout=120)
+    machine.wait_until_succeeds(
+      "curl -sf http://localhost:8787/api/v1/health",
+      timeout=timedelta(seconds=120),
+    )
 
     api_key = "configuratarre2econfiguratarre2e"
 
     # /api/v1/system/status *is* authenticated, so this also proves the key.
     machine.wait_until_succeeds(
       f"curl -sf http://localhost:8787/api/v1/system/status -H 'X-Api-Key: {api_key}'",
-      timeout=60,
+      timeout=timedelta(seconds=60),
     )
 
     machine.succeed(

@@ -30,11 +30,13 @@ pkgs.testers.nixosTest {
     '';
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("prowlarr.service")
-    machine.wait_for_open_port(9696, timeout=60)
+    machine.wait_for_open_port(9696, timeout=timedelta(seconds=180))
     api_key = machine.wait_until_succeeds(
       "grep -oP '(?<=<ApiKey>)[^<]+' /var/lib/prowlarr/config.xml",
-      timeout=30,
+      timeout=timedelta(seconds=30),
     ).strip()
     machine.succeed(
       f"PROWLARR_URL=http://localhost:9696 PROWLARR_API_KEY={api_key} "

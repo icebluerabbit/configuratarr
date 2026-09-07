@@ -34,12 +34,14 @@ pkgs.testers.nixosTest {
     ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("cleanuparr.service")
-    machine.wait_for_open_port(11011, timeout=180)
+    machine.wait_for_open_port(11011, timeout=timedelta(seconds=180))
     # /health is the unauthenticated liveness probe: bare text/plain, no JSON.
     machine.wait_until_succeeds(
       "curl -sf http://localhost:11011/health",
-      timeout=120,
+      timeout=timedelta(seconds=120),
     )
 
     # First-run setup, then log in and read the generated API key.
