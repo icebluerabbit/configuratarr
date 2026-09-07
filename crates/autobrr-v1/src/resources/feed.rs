@@ -106,6 +106,15 @@ impl CustomSync for Feed {
                 |l, w| {
                     let client = client.clone();
                     let id = l.get("id").cloned().unwrap_or(Value::Null);
+                    // autobrr's update handler reads the id from the **body**, not
+                    // the path — `feedHandler.update` decodes the request and calls
+                    // `service.Update(ctx, data)` without ever touching the route
+                    // param (its own error text is `could not find feed with id %d`,
+                    // data.ID). `#[id]` omits the id on encode, so echo the live one
+                    // back or every update looks up feed 0 and fails. Same shape as
+                    // `indexer.rs`, `list.rs`, `notification.rs`, `irc_network.rs`.
+                    let mut w = w;
+                    reconcile::echo(&mut w, "id", l);
                     async move {
                         let _: Value = client.put(&format!("/api/feeds/{id}"), &w).await?;
                         Ok(())
