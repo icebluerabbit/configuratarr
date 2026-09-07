@@ -1,0 +1,36 @@
+name: Stash
+implementation: Stash
+on_grab: false
+on_download: true
+on_upgrade: true
+on_rename: true
+on_movie_added: true
+on_movie_delete: true
+on_movie_file_delete: true
+on_movie_file_delete_for_upgrade: false
+on_health_issue: true
+on_health_restored: true
+on_application_update: true
+on_manual_interaction_required: true
+include_health_warnings: true
+tags:
+  - "${ref.tag.notifications}"
+host: stash
+port: 9999
+use_ssl: false
+api_key: "${env.STASH_API_KEY}"
+generate_covers: true
+generate_previews: true
+generate_image_previews: true
+generate_sprites: true
+generate_phashes: true
+metadata_identify: true
+stash_box_endpoint: "https://stashdb.org/graphql"
+builtin_autotag: true
+include_male_performers: false
+set_cover_image: true
+skip_multiple_matches: true
+skip_multiple_match_tag: 12
+set_organized: true
+map_from: /data/media
+map_to: /mnt/media

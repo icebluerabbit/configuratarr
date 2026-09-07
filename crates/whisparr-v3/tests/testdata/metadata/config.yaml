@@ -1,0 +1,10 @@
+name: Kodi
+implementation: XbmcMetadata
+enable: true
+tags: []
+movie_metadata: true
+movie_metadata_url: false
+movie_metadata_language: 1
+movie_images: true
+use_movie_nfo: false
+add_collection_name: true

@@ -1,0 +1,15 @@
+minimum_age: 0
+maximum_size: 0
+retention: 0
+rss_sync_interval: 60
+prefer_indexer_flags: false
+availability_delay: 0
+allow_hardcoded_subs: false
+whitelisted_hardcoded_subs: "en,fr"
+search_studio_code: true
+search_title_only: false
+search_title_date: true
+search_studio_date: false
+search_studio_title: true
+search_date_format: yymmdd
+search_studio_format: clean

@@ -27,6 +27,7 @@ Reads a desired-state YAML file, diffs it against each app's live REST API, and 
 | Komga | v1 | `komga-v1` | ✅ Supported |
 | Bindery | v1 | `bindery-v1` | ✅ Supported |
 | Audiobookshelf | — | `audiobookshelf-v1` | ✅ Supported |
+| Whisparr (eros) | v3 | `whisparr-v3` | ✅ Supported |
 | Readarr | — | — | 🚧 Planned |
 
 More of the ecosystem (Jellyseerr, …) is on the radar. The engine is service-agnostic — adding one is filling in a template, not changing the core. See [`docs/contributors.md`](docs/contributors.md).

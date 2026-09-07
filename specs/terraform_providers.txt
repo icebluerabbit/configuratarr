@@ -1,4 +1,7 @@
 https://github.com/devopsarr/terraform-provider-prowlarr
+# STALE — targets Whisparr V2 (a Sonarr fork), NOT the eros/V3 line that
+# crates/whisparr-v3 models. Pinned at Feb 2024. Do not use it for whisparr-v3;
+# derive variants from the eros C# source instead. See the add-resource skill.
 https://github.com/devopsarr/terraform-provider-whisparr
 https://github.com/devopsarr/terraform-provider-radarr
 https://github.com/devopsarr/terraform-provider-sonarr

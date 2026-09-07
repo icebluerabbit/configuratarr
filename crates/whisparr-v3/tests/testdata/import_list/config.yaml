@@ -1,0 +1,21 @@
+name: Sibling Whisparr
+implementation: WhisparrImport
+enabled: true
+enable_auto: true
+monitor: movieAndScene
+root_folder_path: "${env.SCENES_PATH}"
+quality_profile_id: "${ref.quality_profile.HD-1080p}"
+search_on_add: true
+list_order: 1
+tags:
+  - "${ref.tag.imports}"
+base_url: http://whisparr-source:6969
+api_key: "${env.WHISPARR_SOURCE_API_KEY}"
+profile_ids:
+  - 1
+  - 2
+tag_ids:
+  - 3
+root_folder_paths:
+  - /media/scenes
+  - /media/scenes-4k

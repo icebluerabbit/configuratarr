@@ -35,6 +35,7 @@ members = [
     "crates/komga-v1",
     "crates/bindery-v1",
     "crates/audiobookshelf-v1",
+    "crates/whisparr-v3",
     "crates/service-registry",
     "crates/core-config",
     "crates/core-cli",

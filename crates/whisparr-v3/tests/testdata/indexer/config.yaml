@@ -1,0 +1,29 @@
+name: EroticaTracker
+implementation: Torznab
+enable_rss: true
+enable_automatic_search: true
+enable_interactive_search: false
+protocol: torrent
+priority: 25
+download_client_id: "${ref.download_client.qBittorrent}"
+tags:
+  - "${ref.tag.indexers}"
+base_url: "http://prowlarr:9696/1"
+api_path: /api
+api_key: "${env.PROWLARR_API_KEY}"
+categories:
+  - 6000
+  - 6010
+additional_parameters: "&extended=1"
+multi_languages:
+  - 1
+fail_downloads:
+  - 0
+  - 1
+remove_year: false
+minimum_seeders: 5
+seed_ratio: 1.5
+seed_time: 1440
+reject_blocklisted_torrent_hashes_while_grabbing: true
+required_flags:
+  - 2

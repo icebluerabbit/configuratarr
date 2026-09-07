@@ -38,6 +38,9 @@ in
         "komga.service"
         "bindery.service"
         "audiobookshelf.service"
+        # eros/V3 specifically — nixpkgs' `services.whisparr` unit is V2, whose
+        # API the whisparr-v3 crate does not model. See nix/modules/whisparr-eros.nix.
+        "whisparr-eros.service"
       ];
 
       serviceConfig = {

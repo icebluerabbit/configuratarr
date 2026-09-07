@@ -1,0 +1,22 @@
+name: studio-tag
+remove_tags_automatically: true
+tags:
+  - 1
+  - 2
+specifications:
+  - name: is-favorite-studio
+    implementation: StudioSpecification
+    negate: false
+    required: true
+    fields:
+      - name: value
+        value: SomeStudio
+  - name: year-range
+    implementation: YearSpecification
+    negate: false
+    required: false
+    fields:
+      - name: min
+        value: 2015
+      - name: max
+        value: 2025

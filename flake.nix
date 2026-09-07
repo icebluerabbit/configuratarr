@@ -176,7 +176,8 @@
             )
             // mkServiceChecks "komga-v1" (import ./nix/e2e/komga-v1.nix { inherit pkgs; })
             // mkServiceChecks "bindery-v1" (import ./nix/e2e/bindery-v1.nix { inherit pkgs; })
-            // mkServiceChecks "audiobookshelf-v1" (import ./nix/e2e/audiobookshelf-v1.nix { inherit pkgs; });
+            // mkServiceChecks "audiobookshelf-v1" (import ./nix/e2e/audiobookshelf-v1.nix { inherit pkgs; })
+            // mkServiceChecks "whisparr-v3" (import ./nix/e2e/whisparr-v3.nix { inherit pkgs; });
 
             formatter = pkgs.nixfmt-tree;
 
