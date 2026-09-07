@@ -34,10 +34,14 @@ pkgs.testers.nixosTest {
   };
   testScript = ''
     import json
+    from datetime import timedelta
 
     machine.wait_for_unit("jellyfin.service")
-    machine.wait_for_open_port(8096, timeout=180)
-    machine.wait_until_succeeds("curl -sf http://localhost:8096/System/Info/Public", timeout=180)
+    machine.wait_for_open_port(8096, timeout=timedelta(seconds=180))
+    machine.wait_until_succeeds(
+      "curl -sf http://localhost:8096/System/Info/Public",
+      timeout=timedelta(seconds=180),
+    )
 
     auth = 'Authorization: MediaBrowser Client="cfg-e2e", Device="cfg-e2e", DeviceId="cfg-e2e", Version="1"'
 
@@ -51,7 +55,10 @@ pkgs.testers.nixosTest {
     # margin and this timed out intermittently while passing locally and on
     # re-runs. `wait_until_succeeds` returns as soon as the call works, so a
     # larger budget costs nothing when the machine is fast.
-    machine.wait_until_succeeds(f"curl -sf http://localhost:8096/Startup/Configuration -H '{auth}'", timeout=300)
+    machine.wait_until_succeeds(
+      f"curl -sf http://localhost:8096/Startup/Configuration -H '{auth}'",
+      timeout=timedelta(seconds=300),
+    )
 
     # Complete the startup wizard. The steps must run in order — POSTing the
     # admin user before priming the config/user GETs 404s.
@@ -102,7 +109,7 @@ pkgs.testers.nixosTest {
       "for _ in 1 2 3; do "
       f"curl -sf http://localhost:8096/System/Info -H 'X-Emby-Token: {api_key}' >/dev/null "
       "|| exit 1; sleep 1; done",
-      timeout=300,
+      timeout=timedelta(seconds=300),
     )
 
     machine.succeed(

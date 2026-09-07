@@ -17,13 +17,15 @@ pkgs.testers.nixosTest {
     ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("bazarr.service")
-    machine.wait_for_open_port(6767, timeout=180)
+    machine.wait_for_open_port(6767, timeout=timedelta(seconds=180))
 
     # Bazarr writes its config (with the generated apikey) shortly after start.
     machine.wait_until_succeeds(
       "grep -qsE 'apikey' /var/lib/bazarr/config/config.yaml /var/lib/bazarr/config/config.ini",
-      timeout=120,
+      timeout=timedelta(seconds=120),
     )
     # bazarr writes only one of config.yaml / config.ini; grep exits 2 on the
     # absent one, which fails under the test shell's `pipefail` even though the
@@ -38,7 +40,7 @@ pkgs.testers.nixosTest {
     # The API answers once bazarr is fully up (authenticated by the key).
     machine.wait_until_succeeds(
       f"curl -sf http://localhost:6767/api/system/status -H 'X-API-KEY: {api_key}'",
-      timeout=120,
+      timeout=timedelta(seconds=120),
     )
 
     machine.succeed(

@@ -25,11 +25,13 @@ pkgs.testers.nixosTest {
     ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("autobrr.service")
-    machine.wait_for_open_port(7474, timeout=180)
+    machine.wait_for_open_port(7474, timeout=timedelta(seconds=180))
     machine.wait_until_succeeds(
       "curl -sf http://localhost:7474/api/healthz/liveness",
-      timeout=120,
+      timeout=timedelta(seconds=120),
     )
 
     # Onboard the first user, log in for a session cookie, mint an API key.
