@@ -647,7 +647,7 @@ Set `implementation` to one of: [`Apprise`](#notification-apprise) / [`CustomScr
 |---|---|---|---|---|
 | `bot_token` | secret string | yes |  | Telegram bot token issued by BotFather. Credential — redacted in plan output. |
 | `chat_id` | string | yes |  | Target chat, group, or channel ID to send messages to. |
-| `topic_id` | string | no |  | Topic (message thread) ID for supergroup forums. |
+| `topic_id` | integer | no |  | Topic (message thread) ID for supergroup forums. Must be greater than 1. |
 | `send_silently` | boolean | no |  | Send the notification silently (no sound or alert on the recipient's device). |
 
 #### Notification: Trakt
