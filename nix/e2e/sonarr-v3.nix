@@ -8,11 +8,13 @@ pkgs.testers.nixosTest {
     environment.systemPackages = [ e2eBin ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("sonarr.service")
-    machine.wait_for_open_port(8989, timeout=60)
+    machine.wait_for_open_port(8989, timeout=timedelta(seconds=180))
     api_key = machine.wait_until_succeeds(
       "grep -oP '(?<=<ApiKey>)[^<]+' /var/lib/sonarr/.config/NzbDrone/config.xml",
-      timeout=30,
+      timeout=timedelta(seconds=30),
     ).strip()
     machine.succeed(
       f"SONARR_URL=http://localhost:8989 SONARR_API_KEY={api_key} "

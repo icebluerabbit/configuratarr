@@ -1,0 +1,10 @@
+enable_usenet: true
+enable_torrent: true
+preferred_protocol: usenet
+usenet_delay: 30
+torrent_delay: 15
+bypass_if_highest_quality: true
+bypass_if_above_custom_format_score: false
+minimum_custom_format_score: 0
+tags:
+  - "${ref.tag.premium-studios}"

@@ -8,11 +8,13 @@ pkgs.testers.nixosTest {
     environment.systemPackages = [ e2eBin ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("radarr.service")
-    machine.wait_for_open_port(7878, timeout=60)
+    machine.wait_for_open_port(7878, timeout=timedelta(seconds=180))
     api_key = machine.wait_until_succeeds(
       "grep -oP '(?<=<ApiKey>)[^<]+' /var/lib/radarr/.config/Radarr/config.xml",
-      timeout=30,
+      timeout=timedelta(seconds=30),
     ).strip()
     machine.succeed(
       f"RADARR_URL=http://localhost:7878 RADARR_API_KEY={api_key} "

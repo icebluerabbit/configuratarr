@@ -1,0 +1,16 @@
+name: NZBVortex
+enable: true
+protocol: usenet
+priority: 1
+remove_completed_downloads: true
+remove_failed_downloads: false
+tags:
+  - "${ref.tag.downloads}"
+implementation: NzbVortex
+host: nzbvortex.local
+port: 4321
+url_base: /api
+api_key: "${env.NZBVORTEX_API_KEY}"
+tv_category: whisparr
+recent_movie_priority: 1
+older_movie_priority: 0

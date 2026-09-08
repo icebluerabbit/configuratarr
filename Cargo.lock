@@ -372,6 +372,7 @@ dependencies = [
  "radarr-v3",
  "service-registry",
  "sonarr-v3",
+ "whisparr-v3",
 ]
 
 [[package]]
@@ -450,6 +451,7 @@ dependencies = [
  "serde_json",
  "service-registry",
  "sonarr-v3",
+ "whisparr-v3",
 ]
 
 [[package]]
@@ -2577,6 +2579,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7dcd9d09a39985f5344844e66b0c530a33843579125f23e21e9f0f220850f22a"
 dependencies = [
  "rustls-pki-types",
+]
+
+[[package]]
+name = "whisparr-v3"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "core-lib",
+ "core-macros",
+ "core-testkit",
+ "jsonschema",
+ "serde-saphyr",
+ "serde_json",
+ "tokio",
 ]
 
 [[package]]

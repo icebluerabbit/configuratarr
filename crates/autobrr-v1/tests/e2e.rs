@@ -1217,3 +1217,60 @@ async fn filter_prunes_undeclared_action() {
     let settled = run(&url, &key, one, ApplyOptions::default()).await;
     assert_eq!(settled.updated, 0, "re-apply is a no-op: {settled:?}");
 }
+
+/// A feed **update** actually reaches autobrr. Regression guard: the update
+/// closure used to put the id in the path only, but `feedHandler.update` decodes
+/// the body and calls `service.Update(ctx, data)` without reading the route param
+/// — so with `#[id]` omitting the id on encode, every update looked up feed 0 and
+/// failed, aborting the whole apply at the feed stage. No feed field could ever
+/// change. The pre-existing feed test only covered create + no-op, which is why
+/// this went unnoticed.
+#[tokio::test]
+#[ignore]
+async fn feed_update_changes_a_field() {
+    let Some((url, key)) = setup().await else {
+        return;
+    };
+    let cfg = |interval: i64| {
+        json!({
+            "indexers": [{
+                "name": "cfg-e2e-feedupd-idx",
+                "identifier": "torznab",
+                "implementation": "torznab",
+                "settings": { "url": "https://tracker.example.org/t", "api_key": "K" },
+            }],
+            "feeds": [{
+                "name": "cfg-e2e-feedupd",
+                "indexer_id": "${ref.indexer.cfg-e2e-feedupd-idx}",
+                "feed_type": "TORZNAB",
+                "enabled": true,
+                "url": "https://tracker.example.org/rss",
+                "interval": interval,
+            }],
+        })
+    };
+
+    run(&url, &key, cfg(15), ApplyOptions::default()).await;
+
+    // The apply itself would error if the PUT failed; assert the change landed.
+    let report = run(&url, &key, cfg(30), ApplyOptions::default()).await;
+    assert!(
+        report.updated >= 1,
+        "changing interval must update the feed: {report:?}"
+    );
+
+    let (svc, _) = instance::<AutobrrV1>(&url, &key, json!({}));
+    let client = core_lib::apply::connect(&svc.connection())
+        .await
+        .expect("connect");
+    let feeds: Vec<Value> = client.get("/api/feeds").await.expect("list feeds");
+    let feed = feeds
+        .iter()
+        .find(|f| f.get("name").and_then(Value::as_str) == Some("cfg-e2e-feedupd"))
+        .expect("feed present");
+    assert_eq!(
+        feed.get("interval").and_then(Value::as_i64),
+        Some(30),
+        "server must hold the updated interval: {feed:?}"
+    );
+}

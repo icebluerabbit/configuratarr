@@ -38,6 +38,7 @@ macro_rules! service_registry {
             KomgaV1 => "komga-v1" : komga_v1::KomgaV1 = "Komga v1",
             BinderyV1 => "bindery-v1" : bindery_v1::BinderyV1 = "Bindery v1",
             AudiobookshelfV1 => "audiobookshelf-v1" : audiobookshelf_v1::AudiobookshelfV1 = "Audiobookshelf v1",
+            WhisparrV3 => "whisparr-v3" : whisparr_v3::WhisparrV3 = "Whisparr v3",
         }
     };
 }

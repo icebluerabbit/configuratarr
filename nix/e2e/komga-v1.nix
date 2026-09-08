@@ -25,13 +25,15 @@ pkgs.testers.nixosTest {
     ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("komga.service")
-    machine.wait_for_open_port(25600, timeout=300)
+    machine.wait_for_open_port(25600, timeout=timedelta(seconds=300))
 
     # Komga answers /api/v1/claim (unauthenticated) once the app context is up;
     # the JVM start is slow, so poll rather than assuming the open port is ready.
     machine.wait_until_succeeds(
-      "curl -sf http://localhost:25600/api/v1/claim", timeout=300
+      "curl -sf http://localhost:25600/api/v1/claim", timeout=timedelta(seconds=300)
     )
 
     # Claim the server — creates the first (admin) user.
@@ -53,7 +55,7 @@ pkgs.testers.nixosTest {
     # The key authenticates (and the app is fully up) once this answers.
     machine.wait_until_succeeds(
       f"curl -sf http://localhost:25600/api/v2/users/me -H 'X-API-Key: {api_key}'",
-      timeout=120,
+      timeout=timedelta(seconds=120),
     )
 
     machine.succeed(

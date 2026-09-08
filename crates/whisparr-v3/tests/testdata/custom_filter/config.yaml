@@ -1,0 +1,9 @@
+label: unmonitored-scenes
+filter_type: MovieIndex
+filters:
+  - key: monitored
+    value: "false"
+    type: equal
+  - key: studio
+    value: SomeStudio
+    type: contains

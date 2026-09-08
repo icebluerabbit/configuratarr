@@ -125,6 +125,12 @@ in
     e2eShell = e2e;
   };
 
+  e2e-whisparr = import ./e2e-shells/whisparr-v3.nix {
+    inherit pkgs;
+    inherit common;
+    e2eShell = e2e;
+  };
+
   e2e-audiobookshelf = import ./e2e-shells/audiobookshelf-v1.nix {
     inherit pkgs;
     inherit common;

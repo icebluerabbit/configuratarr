@@ -8,11 +8,13 @@ pkgs.testers.nixosTest {
     environment.systemPackages = [ e2eBin ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("lidarr.service")
-    machine.wait_for_open_port(8686, timeout=60)
+    machine.wait_for_open_port(8686, timeout=timedelta(seconds=180))
     api_key = machine.wait_until_succeeds(
       "grep -oP '(?<=<ApiKey>)[^<]+' /var/lib/lidarr/.config/Lidarr/config.xml",
-      timeout=30,
+      timeout=timedelta(seconds=30),
     ).strip()
     machine.succeed(
       f"LIDARR_URL=http://localhost:8686 LIDARR_API_KEY={api_key} "

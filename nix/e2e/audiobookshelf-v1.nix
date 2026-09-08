@@ -21,11 +21,16 @@ pkgs.testers.nixosTest {
     ];
   };
   testScript = ''
+    from datetime import timedelta
+
     machine.wait_for_unit("audiobookshelf.service")
-    machine.wait_for_open_port(8000, timeout=120)
+    machine.wait_for_open_port(8000, timeout=timedelta(seconds=120))
 
     # /status is unauthenticated and reports whether a root user exists yet.
-    machine.wait_until_succeeds("curl -sf http://localhost:8000/status", timeout=120)
+    machine.wait_until_succeeds(
+      "curl -sf http://localhost:8000/status",
+      timeout=timedelta(seconds=120),
+    )
 
     # Create the root user (only possible while the server is uninitialised).
     machine.succeed(
@@ -40,13 +45,13 @@ pkgs.testers.nixosTest {
       "-H 'Content-Type: application/json' "
       '-d \'{"username":"root","password":"configuratarre2e"}\' '
       "| jq -r '.user.accessToken'",
-      timeout=60,
+      timeout=timedelta(seconds=60),
     ).strip()
 
     # The token authenticates once this answers.
     machine.wait_until_succeeds(
       f"curl -sf http://localhost:8000/api/libraries -H 'Authorization: Bearer {token}'",
-      timeout=60,
+      timeout=timedelta(seconds=60),
     )
 
     machine.succeed(
