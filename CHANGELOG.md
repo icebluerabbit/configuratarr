@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0](https://github.com/icebluerabbit/configuratarr/compare/v0.1.2...v0.2.0) (2026-09-08)
+
+
+### Features
+
+* add komga-v1, bindery-v1 and audiobookshelf-v1 services ([c0b4a26](https://github.com/icebluerabbit/configuratarr/commit/c0b4a26c1ad633ff40c98f57f7e5acdb0666dc1c))
+* **whisparr-v3:** add the Whisparr (eros) service ([b8065c8](https://github.com/icebluerabbit/configuratarr/commit/b8065c865d7d46afaae46d9a39bc30071fd59c13))
+
+
+### Bug Fixes
+
+* **autobrr-v1:** send the feed id in the update body ([c41b0ed](https://github.com/icebluerabbit/configuratarr/commit/c41b0ed5db39abccbf940124b4c0d4a1a326310c))
+* **radarr-v3:** type telegram topic_id as an integer ([d4880ec](https://github.com/icebluerabbit/configuratarr/commit/d4880ec05721ad68598591c8cc95f9ccc9ae92ba))
+
 ## [0.1.2](https://github.com/icebluerabbit/configuratarr/compare/v0.1.1...v0.1.2) (2026-08-14)
 
 
